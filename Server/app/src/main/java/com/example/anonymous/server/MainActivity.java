@@ -30,21 +30,7 @@ import android.widget.Toast;
 import java.util.UUID;
 import java.util.logging.LogRecord;
 
-//for database
-import android.support.v7.app.ActionBarActivity;
-import android.widget.EditText;
-
-import com.example.anonymous.server.Database;
-import com.example.anonymous.server.MyDBHandler;
-
 public class MainActivity extends Activity {
-
-
-    //ref for database
-    EditText myInput;
-    TextView myText;
-    MyDBHandler dbHandler;
-
     public Handler myHandler = new Handler(){
         @Override
         public void handleMessage(Message msg){
@@ -53,9 +39,8 @@ public class MainActivity extends Activity {
             t.setText(data);
             Button b = (Button)findViewById(R.id.button);
             b.setBackgroundColor(Color.CYAN);
-            char str[] = new char [100];
-            str=data.toCharArray();
-/*hello*/
+            //messageAdapter.add(message);
+            //messageAdapter.notifyDataSetChanged();
         }
     };
     private static final int REQUEST_ENABLE_BT = 1;
@@ -72,12 +57,10 @@ public class MainActivity extends Activity {
     private String name="Server";
     private String message;
     private ArrayAdapter<String> messageAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         // take an instance of BluetoothAdapter - Bluetooth radio
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -86,7 +69,7 @@ public class MainActivity extends Activity {
             Toast.makeText(getApplicationContext(),"Your device does not support Bluetooth",
                     Toast.LENGTH_LONG).show();
         } else {
-            //write onclick listener here
+            //writre onclick listener here
             on();
             //send it to a particular mac address
             //check for mac address of the main server enter it first
@@ -96,39 +79,10 @@ public class MainActivity extends Activity {
 
             ConnectThread mConnect = new ConnectThread();
             mConnect.start();
-            try{
-                mConnect.join();
-            }catch(Exception e){}
+             //off();
         }
-
-
-        //database
-        //myInput = (EditText) findViewById(R.id.myInput);
-        //myText = (TextView) findViewById(R.id.myText);
-        //dbHandler = new MyDBHandler(this,null,null,1);
-        //printDatabase();
     }
 
-    //add data
-    public void addButtonClicked(){
-        Database database = new Database(myInput.getText().toString());
-        dbHandler.addData(database);
-        printDatabase();
-    }
-
-    //delete data
-    public void deleteButtonClicked(){
-        String inputText = myText.getText().toString();
-        dbHandler.deleteData(inputText);
-        printDatabase();
-    }
-
-    //prints db
-    public void printDatabase(){
-        String dbString = dbHandler.databaseToString();
-        myText.setText(dbString);
-        myInput.setText("");
-    }
 
     public void fname(View v){
         TextView t = (TextView)findViewById(R.id.textView);
@@ -239,14 +193,10 @@ public class MainActivity extends Activity {
             while(true){
                 try{
                     socket=mmSocket.accept();
-                }catch(IOException e){System.out.println(e);}
+                }catch(IOException e){}
                 if(socket!=null){
-
                     ConnectedThread mConnection = new ConnectedThread(socket);
                     mConnection.start();
-                    try{
-                        mConnection.join();
-                    }catch(Exception e){}
                     /*try{
                         mmSocket.close();
                     }catch(IOException e){}*/

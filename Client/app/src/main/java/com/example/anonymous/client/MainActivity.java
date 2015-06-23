@@ -25,6 +25,7 @@ import android.widget.*;
 import java.util.UUID;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
+import android.util.Log;
 
 public class MainActivity extends Activity {
 
@@ -40,36 +41,49 @@ public class MainActivity extends Activity {
     private ArrayAdapter<String> BTArrayAdapter;
     private BluetoothDevice mdevice;
     private String name="Client";
-    private String employeeid;
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (!myBluetoothAdapter.isEnabled()) {
-            Intent turnOnIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(turnOnIntent, REQUEST_ENABLE_BT);
-        }
     }
 
-    public void sendMessage(View v) throws InterruptedException {
+    public void sendMessage(View v){
         // take an instance of BluetoothAdapter - Bluetooth radio
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(myBluetoothAdapter == null) {
             Toast.makeText(getApplicationContext(),"Your device does not support Bluetooth",
                     Toast.LENGTH_LONG).show();
         } else {
-            EditText e = (EditText)findViewById(R.id.empID);
-            employeeid = e.getText().toString()+"#";
-            while(!myBluetoothAdapter.isEnabled());
+            //write onclick listener here
+            on();
+            //send it to a particular mac address
+            //check for mac address of the main server enter it first
+            while(!myBluetoothAdapter.isEnabled());  //wait till bluetooth is on
             String macAdd="40:78:6A:BB:E3:64";
+            EditText e = (EditText)findViewById(R.id.empID);
+            String employeeid = e.getText().toString();
             mdevice = search(macAdd);
             ConnectThread mConnect = new ConnectThread(mdevice,employeeid);
             mConnect.start();
-            try {
-                mConnect.join();
-            } catch (InterruptedException e1) { }
+            //try {
+             //   mConnect.join();
+            //} catch (InterruptedException e1) { }
+        }
+    }
+
+    public void on(){
+        if (!myBluetoothAdapter.isEnabled()) {
+            Intent turnOnIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(turnOnIntent, REQUEST_ENABLE_BT);
+
+            Toast.makeText(getApplicationContext(),"Bluetooth turned on" ,
+                    Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Bluetooth is already on",
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -85,6 +99,44 @@ public class MainActivity extends Activity {
         }
     }
 
+    public void list(){
+        // get paired devices
+        pairedDevices = myBluetoothAdapter.getBondedDevices();
+        //find a device with server devices's mac address
+        // put it's one to the adapter
+        for(BluetoothDevice device : pairedDevices)
+            BTArrayAdapter.add(device.getName()+ "\n" + device.getAddress());
+
+        Toast.makeText(getApplicationContext(),"Show Paired Devices",
+                Toast.LENGTH_SHORT).show();
+
+    }
+
+    final BroadcastReceiver bReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            // When discovery finds a device
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Get the BluetoothDevice object from the Intent
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                // add the name and the MAC address of the object to the arrayAdapter
+                BTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                BTArrayAdapter.notifyDataSetChanged();
+            }
+        }
+    };
+
+    public void find() {
+        if (myBluetoothAdapter.isDiscovering()) {
+            // the button is pressed when it discovers, so cancel the discovery
+            myBluetoothAdapter.cancelDiscovery();
+        }
+        else {
+            BTArrayAdapter.clear();
+            myBluetoothAdapter.startDiscovery();
+            registerReceiver(bReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
+        }
+    }
 
     public BluetoothDevice search(String macAdd){
         pairedDevices = myBluetoothAdapter.getBondedDevices();
@@ -112,7 +164,7 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-       // unregisterReceiver(bReceiver);
+        unregisterReceiver(bReceiver);
     }
 
     //Thread to establish connection
@@ -121,15 +173,14 @@ public class MainActivity extends Activity {
         private final BluetoothDevice mmDevice;
         private final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
         private final String employeeID;
+
         public ConnectThread(BluetoothDevice device,String empData){
             BluetoothSocket temp=null;
             mmDevice = device;
             employeeID=empData;
             try{
                 temp = device.createRfcommSocketToServiceRecord(MY_UUID);
-                Thread.sleep(10);
-            }catch(IOException e){System.out.println("socket not created"+e);}
-            catch(Exception e){}
+            }catch(IOException e){Log.d(TAG, "socket not created",e);}
             mmSocket = temp;
         }
 
@@ -140,30 +191,30 @@ public class MainActivity extends Activity {
             }catch(IOException e){
                 try{
                     mmSocket.close();
-                }catch(IOException ee){System.out.println("socket not connected"+ee);}
+                }catch(IOException ee){Log.d(TAG, "socket not closed",ee);}
                 return;
             }
             ConnectedThread c = new ConnectedThread(mmSocket,employeeID);
             c.start();
-            try {
-                c.join();
-            }catch(Exception e){}
-
+            //try {
+            //    c.join();
+            //}catch(Exception e){}
             return;
         }
 
         public void cancel(){
             try{
                 mmSocket.close();
-            }catch(IOException e){}
+            }catch(IOException e){Log.d(TAG, "socket not closed of connect thread",e);}
+
         }
+
     }
 
     private class ConnectedThread extends Thread{
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
-        private volatile boolean stop = false;
         private String empData;
         public ConnectedThread(BluetoothSocket socket,String data){
             mmSocket=socket;
@@ -174,7 +225,7 @@ public class MainActivity extends Activity {
             try{
                 tempIn = socket.getInputStream();
                 tempOut = socket.getOutputStream();
-            }catch(IOException e){System.out.println("string not send or rec"+e);}
+            }catch(IOException e){Log.d(TAG, "temp in or temp out not created",e);}
 
             mmInStream = tempIn;
             mmOutStream = tempOut;
@@ -185,23 +236,23 @@ public class MainActivity extends Activity {
             int bytes;
             while(true){
                 try{
-                    Thread.sleep(300);
                     mmOutStream.write(buffer);
                     break;
-                }   catch (Exception e){System.out.println("out stream from buffer"+e); }
+                }   catch (IOException e){Log.d(TAG, "write error",e); }
             }
-            BluetoothAdapter badapt = BluetoothAdapter.getDefaultAdapter();
-            badapt.disable();
-            return;
+            cancel();
+            off();
+
         }
-
-
 
         public void cancel(){
             try{
                 mmSocket.close();
-            }catch(IOException e){}
+            }catch(IOException e){Log.d(TAG, "socket not closed",e);}
+
         }
+
     }
 
-}
+  }
+
