@@ -55,6 +55,7 @@ public class MainActivity extends Activity {
             b.setBackgroundColor(Color.CYAN);
             char str[] = new char [100];
             str=data.toCharArray();
+/*hello*/
         }
     };
     private static final int REQUEST_ENABLE_BT = 1;
