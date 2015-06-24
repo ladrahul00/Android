@@ -27,6 +27,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 import java.util.UUID;
 import java.util.logging.LogRecord;
 
@@ -39,8 +43,9 @@ public class MainActivity extends Activity {
             t.setText(data);
             Button b = (Button)findViewById(R.id.button);
             b.setBackgroundColor(Color.CYAN);
-            //messageAdapter.add(message);
-            //messageAdapter.notifyDataSetChanged();
+            ParseObject testObject = new ParseObject("EmployeeData");
+            testObject.put("empid", data);
+            testObject.saveInBackground();
         }
     };
     private static final int REQUEST_ENABLE_BT = 1;
@@ -62,6 +67,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+// Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+
+        Parse.initialize(this, "ecNYEdsTREI9Mwzx5gWOoh2HB9V78KvVWe8W8iIA", "YHuKHkJdjm4gSdl6lrZavY9Sdx06Da1DPNNXy40p");
+
         // take an instance of BluetoothAdapter - Bluetooth radio
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(myBluetoothAdapter == null) {
@@ -71,18 +81,15 @@ public class MainActivity extends Activity {
         } else {
             //writre onclick listener here
             on();
+            while(!myBluetoothAdapter.isEnabled());  //wait till bluetooth is on
             //send it to a particular mac address
             //check for mac address of the main server enter it first
-            myListView = (ListView)findViewById(R.id.listView1);
-            messageAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
-            myListView.setAdapter(messageAdapter);
 
             ConnectThread mConnect = new ConnectThread();
             mConnect.start();
-             //off();
+            // off();
         }
     }
-
 
     public void fname(View v){
         TextView t = (TextView)findViewById(R.id.textView);
@@ -193,8 +200,9 @@ public class MainActivity extends Activity {
             while(true){
                 try{
                     socket=mmSocket.accept();
-                }catch(IOException e){}
+                }catch(IOException e){System.out.println(e);}
                 if(socket!=null){
+
                     ConnectedThread mConnection = new ConnectedThread(socket);
                     mConnection.start();
                     /*try{
@@ -203,10 +211,11 @@ public class MainActivity extends Activity {
                 }
             }
         }
-        public void cancel(){
-            try{
+        public void cancel() {
+            try {
                 mmSocket.close();
-            }catch(IOException e){}
+            } catch (IOException e) {
+            }
         }
     }
 
@@ -238,6 +247,7 @@ public class MainActivity extends Activity {
                     msg.sendToTarget();
                 }catch(IOException e){break;}
             }
+
         }
 
         public void cancel(){
