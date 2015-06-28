@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BluetoothTest</string>
+    <string name="action_settings">Settings</string>
+    <string name="ButtonText">GET IN/OUT</string>
+    <string name="EmpIDText">Employee ID Enter here :: </string>
+
+</resources>
