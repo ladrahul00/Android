@@ -1,5 +1,6 @@
 package com.example.anonymous.adddata;
 
+import android.bluetooth.BluetoothAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,8 +27,8 @@ public class MainActivity extends ActionBarActivity {
         pobj.put("EmployeeID",empid.getText().toString());
         EditText passwd = (EditText)findViewById(R.id.Password);
         pobj.put("Password",passwd.getText().toString());
-        EditText mac = (EditText)findViewById(R.id.DeviceMac);
-        pobj.put("EmployeeMAC",mac.getText().toString());
+        String mac= BluetoothAdapter.getDefaultAdapter().getAddress();
+        pobj.put("EmployeeMAC",mac);
         pobj.saveInBackground();
     }
 

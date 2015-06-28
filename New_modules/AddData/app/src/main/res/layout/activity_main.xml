@@ -29,17 +29,6 @@
         android:layout_alignStart="@+id/textView"
         android:layout_marginTop="81dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Device Mac Address"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_marginTop="58dp" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,24 +49,15 @@
         android:layout_alignStart="@+id/textView2"
         android:width="@android:dimen/thumbnail_width" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/DeviceMac"
-        android:layout_below="@+id/textView3"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3"
-        android:width="@android:dimen/thumbnail_height" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Data"
         android:id="@+id/button"
-        android:layout_below="@+id/DeviceMac"
-        android:layout_alignLeft="@+id/DeviceMac"
-        android:layout_alignStart="@+id/DeviceMac"
         android:layout_marginTop="49dp"
-        android:onClick="addData"/>
+        android:onClick="addData"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2" />
 
 </RelativeLayout>
