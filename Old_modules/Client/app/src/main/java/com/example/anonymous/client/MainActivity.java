@@ -1,6 +1,7 @@
 package com.javacodegeeks.android.bluetoothtest;
 
 import android.graphics.Color;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
