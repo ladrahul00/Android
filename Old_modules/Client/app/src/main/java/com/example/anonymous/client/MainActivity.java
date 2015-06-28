@@ -1,7 +1,7 @@
 package com.javacodegeeks.android.bluetoothtest;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -27,6 +27,14 @@ import java.util.UUID;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
+//imports for shared preferences
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+
+//imports for shared preference
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+
 public class MainActivity extends Activity {
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -40,6 +48,22 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref" , 0); //0 for private mode
+        Editor editor = pref.edit();
+
+        int a = pref.getInt("key_name",0);
+        editor.commit();
+
+        TextView show_status = (TextView)findViewById(R.id.show_status);
+
+
+        if(a==0){
+            show_status.setText("You are inside.");
+        }
+        else
+        show_status.setText("You are outside.");
+
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (!myBluetoothAdapter.isEnabled()) {
             Intent turnOnIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -214,6 +238,25 @@ public class MainActivity extends Activity {
             tv.setText("yeah baby");
             tv.setBackgroundColor(Color.GREEN);
             tv.setVisibility(View.VISIBLE);
+
+            TextView show_status = (TextView)findViewById(R.id.show_status);
+
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref" , 0); //0 for private mode
+            Editor editor = pref.edit();
+            int a=pref.getInt("key_name",0);
+            editor.commit();
+            if(a==0) {
+                editor.putInt("key_name", 1);
+                editor.commit();
+                show_status.setText("You got out");
+            }
+            else
+            {
+                editor.putInt("key_name", 0);
+                editor.commit();
+                show_status.setText("You got in");
+            }
+
         }
     };
 }

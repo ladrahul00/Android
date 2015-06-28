@@ -53,4 +53,14 @@
         android:textStyle="bold"
         android:visibility="invisible" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/show_status"
+        android:layout_marginTop="70dp"
+        android:layout_below="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffff" />
+
 </RelativeLayout>
