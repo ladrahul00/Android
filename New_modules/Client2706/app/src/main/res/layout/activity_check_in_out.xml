@@ -12,18 +12,32 @@
         android:layout_height="wrap_content"
         android:text="@string/InOutButton"
         android:id="@+id/button"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp"
-        android:onClick="sendMessage"/>
+        android:onClick="sendMessage"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/abc_config_prefDialogWidth"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView3"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/show_status"
+        android:visibility="visible"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="68dp" />
+        android:layout_alignLeft="@+id/ack"
+        android:layout_alignStart="@+id/ack"
+        android:layout_marginTop="76dp"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false" />
 
+    <TextView
+        android:layout_width="@dimen/abc_search_view_preferred_width"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/ack"
+        android:visibility="invisible"
+        android:layout_marginBottom="81dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
