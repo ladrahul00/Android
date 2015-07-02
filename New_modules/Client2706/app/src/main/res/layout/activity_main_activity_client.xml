@@ -4,25 +4,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivityClient"
-<<<<<<< HEAD
     android:background="@drawable/glowwallpaper"
 
     android:clickable="false">
 
-=======
-    android:background="#ffffff"
-
-    android:clickable="false">
-
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/abc_text_size_display_4_material"
-        android:id="@+id/imageView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/clg" />
->>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
 
     <TextView
         android:layout_width="@android:dimen/thumbnail_width"
@@ -30,13 +15,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Employee ID"
         android:id="@+id/textView"
-<<<<<<< HEAD
         android:layout_marginTop="87dp"
         android:textColor="#ffbdca73"
-=======
-        android:layout_marginTop="46dp"
-        android:textColor="#006699"
->>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
         android:textSize="20dp"
         android:textAlignment="center"
         android:typeface="serif"
@@ -49,21 +29,11 @@
         android:id="@+id/employeeid"
         android:outlineProvider="bounds"
         android:background="#ffffff"
-<<<<<<< HEAD
         android:inputType="text"
         android:autoText="false"
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView"
         android:layout_below="@+id/textView" />
-=======
-        android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:inputType="text"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentBottom="false"
-        android:autoText="false" />
->>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
 
     <TextView
         android:layout_width="@android:dimen/thumbnail_width"
@@ -71,7 +41,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Password"
         android:id="@+id/textView2"
-<<<<<<< HEAD
         android:textColor="#e4b8bf4a"
         android:textSize="20dp"
         android:typeface="serif"
@@ -79,14 +48,6 @@
         android:layout_alignLeft="@+id/employeeid"
         android:layout_alignStart="@+id/employeeid"
         android:layout_marginTop="68dp" />
-=======
-        android:textColor="#006699"
-        android:textSize="20dp"
-        android:typeface="serif"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/employeeid"
-        android:layout_alignStart="@+id/employeeid" />
->>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
 
     <EditText
         android:layout_width="@android:dimen/thumbnail_width"
@@ -104,18 +65,10 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/loginButton"
-<<<<<<< HEAD
         android:background="#ffbccc37"
         android:onClick="loginCheck"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-=======
-        android:background="#0099CC"
-        android:layout_marginTop="44dp"
-        android:layout_below="@+id/password"
-        android:layout_centerHorizontal="true"
-        android:onClick="loginCheck"/>
->>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
 
     <TextView
         android:layout_width="wrap_content"
@@ -123,7 +76,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/errorText"
-<<<<<<< HEAD
         android:visibility="invisible"
         android:layout_below="@+id/password"
         android:layout_centerHorizontal="true"
@@ -138,12 +90,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-=======
-        android:layout_below="@+id/imageView"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView"
-        android:visibility="invisible" />
->>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
 
 
 </RelativeLayout>

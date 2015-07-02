@@ -30,6 +30,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.anonymous.server.AddData;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import java.util.UUID;
@@ -82,8 +84,8 @@ public class MainActivity extends Activity {
     }
 
     public void fname(View v) {
-        TextView t = (TextView) findViewById(R.id.textView);
-        t.setText(message);
+        Intent intent = new Intent(this, AddData.class);
+        startActivity(intent);
     }
 
     public void on() {
