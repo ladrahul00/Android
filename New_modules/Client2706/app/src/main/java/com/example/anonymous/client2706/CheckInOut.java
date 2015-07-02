@@ -96,7 +96,7 @@ public class CheckInOut extends ActionBarActivity {
         }
         else {
             while(!myBluetoothAdapter.isEnabled());
-            String macAdd="40:78:6A:BB:E3:64";
+            String macAdd="90:68:C3:48:EA:B1";
             try {
                 mdevice = search(macAdd);
             }catch(NullPointerException ne){
