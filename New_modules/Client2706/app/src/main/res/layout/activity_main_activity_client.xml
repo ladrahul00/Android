@@ -4,80 +4,91 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivityClient"
-    android:background="#000000">
+    android:background="@drawable/glowwallpaper"
 
+    android:clickable="false">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/employeeid"
-        android:inputType="text"
-        android:background="#ffffff"
-        android:width="@android:dimen/thumbnail_width"
-        android:layout_marginTop="127dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/password"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/employeeid"
-        android:layout_alignStart="@+id/employeeid"
-        android:layout_alignRight="@+id/employeeid"
-        android:layout_alignEnd="@+id/employeeid"
-        android:background="#ffffff" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="@android:dimen/thumbnail_width"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Employee ID"
         android:id="@+id/textView"
-        android:layout_alignBottom="@+id/employeeid"
-        android:layout_alignRight="@+id/employeeid"
-        android:layout_alignEnd="@+id/employeeid"
-        android:layout_marginBottom="38dp"
-        android:textColor="#ffffff"
-        android:textSize="30dp" />
+        android:layout_marginTop="87dp"
+        android:textColor="#ffbdca73"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:typeface="serif"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="@android:dimen/thumbnail_width"
+        android:layout_height="@dimen/abc_action_bar_progress_bar_size"
+        android:id="@+id/employeeid"
+        android:outlineProvider="bounds"
+        android:background="#ffffff"
+        android:inputType="text"
+        android:autoText="false"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/textView" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="@android:dimen/thumbnail_width"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Paasword"
+        android:text="Password"
         android:id="@+id/textView2"
-        android:layout_above="@+id/password"
-        android:layout_alignLeft="@+id/password"
-        android:layout_alignStart="@+id/password"
-        android:textColor="#ffffff"
-        android:textSize="30dp" />
+        android:textColor="#e4b8bf4a"
+        android:textSize="20dp"
+        android:typeface="serif"
+        android:layout_below="@+id/employeeid"
+        android:layout_alignLeft="@+id/employeeid"
+        android:layout_alignStart="@+id/employeeid"
+        android:layout_marginTop="68dp" />
+
+    <EditText
+        android:layout_width="@android:dimen/thumbnail_width"
+        android:layout_height="@dimen/abc_action_bar_progress_bar_size"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/password"
+        android:background="#ffffff"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/loginButton"
-        android:layout_below="@+id/password"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginTop="45dp"
-        android:onClick="loginCheck"/>
+        android:background="#ffbccc37"
+        android:onClick="loginCheck"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/errorTxt"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
         android:id="@+id/errorText"
-        android:layout_above="@+id/textView"
-        android:layout_alignLeft="@+id/employeeid"
-        android:layout_alignStart="@+id/employeeid"
-        android:layout_alignParentEnd="false"
-        android:textColor="#ff0000"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:background="@drawable/globantlogo"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>

@@ -4,11 +4,15 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +23,11 @@ import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
 
+//imports for shared preferences
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 public class CheckInOut extends ActionBarActivity {
     private static final int REQUEST_ENABLE_BT = 1;
@@ -27,12 +36,37 @@ public class CheckInOut extends ActionBarActivity {
     private BluetoothDevice mdevice;
     private String name="Client";
     private String employeeid;
+    Button checkInOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in_out);
+
+        Button button = (Button)findViewById(R.id.button);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref" , 0); //0 for private mode
+        Editor editor = pref.edit();
+
+        int a = pref.getInt("key_name",0);
+        editor.commit();
+
+        TextView show_status = (TextView)findViewById(R.id.show_status);
+
+
+        if(a==0){
+            show_status.setText("You are inside.");
+            show_status.setTextColor(Color.WHITE);
+            button.setText("out");
+        }
+        else
+        {
+            show_status.setText("You are outside.");
+            show_status.setTextColor(Color.WHITE);
+
+            button.setText("in");}
+
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        checkInOut = (Button)findViewById(R.id.button);
         String mac = myBluetoothAdapter.getAddress();
         if (!myBluetoothAdapter.isEnabled()) {
             Intent turnOnIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -47,7 +81,7 @@ public class CheckInOut extends ActionBarActivity {
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(myBluetoothAdapter == null) {
             Toast.makeText(getApplicationContext(), "Your device does not support Bluetooth",
-            Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG).show();
         }
         else {
             while(!myBluetoothAdapter.isEnabled());
@@ -55,11 +89,17 @@ public class CheckInOut extends ActionBarActivity {
             try {
                 mdevice = search(macAdd);
             }catch(NullPointerException ne){
-                TextView tv = (TextView)findViewById(R.id.textView2);
+                TextView tv = (TextView)findViewById(R.id.ack);
                 tv.setText("NOT Connected to server");
                 tv.setVisibility(View.VISIBLE);
             }
-            ConnectThread mConnect = new ConnectThread(mdevice,employeeid);
+
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref" , 0); //0 for private mode
+            Editor editor = pref.edit();
+            int a = pref.getInt("key_name",0);
+            editor.commit();
+            String msg = employeeid+"#"+String.valueOf(a);
+            ConnectThread mConnect = new ConnectThread(mdevice,msg);
             mConnect.start();
             try {
                 mConnect.join();
@@ -101,13 +141,6 @@ public class CheckInOut extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -128,7 +161,6 @@ public class CheckInOut extends ActionBarActivity {
             catch(Exception e){}
             mmSocket = temp;
         }
-
         public void run(){
             myBluetoothAdapter.cancelDiscovery();
             try{
@@ -147,7 +179,6 @@ public class CheckInOut extends ActionBarActivity {
 
             return;
         }
-
         public void cancel(){
             try{
                 mmSocket.close();
@@ -181,18 +212,31 @@ public class CheckInOut extends ActionBarActivity {
             int bytes;
             while(true){
                 try{
-                    Thread.sleep(300);
+                    //Thread.sleep(300);
                     mmOutStream.write(buffer);
                     break;
                 }   catch (Exception e){ }
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            while(mmInStream==null);
+            try {
+                byte [] xyz = new byte[1024];
+                bytes = mmInStream.read(xyz);
+                String m = new String(xyz);
+                Message msg = myHandler.obtainMessage(1, m);
+                msg.sendToTarget();
+                //       break;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             BluetoothAdapter badapt = BluetoothAdapter.getDefaultAdapter();
             badapt.disable();
             return;
         }
-
-
-
         public void cancel(){
             try{
                 mmSocket.close();
@@ -200,5 +244,38 @@ public class CheckInOut extends ActionBarActivity {
         }
     }
 
+    public android.os.Handler myHandler = new android.os.Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String data = msg.obj.toString();
+            TextView tv = (TextView)findViewById(R.id.ack);
+            tv.setText("Acknowledged by server");
+            tv.setTextColor(Color.WHITE);
+            tv.setVisibility(View.VISIBLE);
 
+            Button button = (Button)findViewById(R.id.button);
+            TextView show_status = (TextView)findViewById(R.id.show_status);
+            show_status.setTextColor(Color.BLUE);
+            show_status.setVisibility(View.VISIBLE);
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref" , 0); //0 for private mode
+            SharedPreferences.Editor editor = pref.edit();
+            int a=pref.getInt("key_name",0);
+            editor.commit();
+            if(a==0) {
+                editor.putInt("key_name", 1);
+                editor.commit();
+                show_status.setText("You got out");
+                show_status.setTextColor(Color.WHITE);
+                button.setText("IN");
+            }
+            else
+            {
+                editor.putInt("key_name", 0);
+                editor.commit();
+                show_status.setText("You got in");
+                show_status.setTextColor(Color.WHITE);
+                button.setText("OUT");
+            }
+        }
+    };
 }

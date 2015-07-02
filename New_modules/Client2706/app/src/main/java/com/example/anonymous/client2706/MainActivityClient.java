@@ -10,13 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
 import java.util.List;
+
 
 public class MainActivityClient extends ActionBarActivity {
     @Override
@@ -35,6 +38,7 @@ public class MainActivityClient extends ActionBarActivity {
         BluetoothAdapter myBluetoothAdapter;
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         final String macDevice = myBluetoothAdapter.getAddress();
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeData");
         query.whereEqualTo("EmployeeID",empidString);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -44,32 +48,31 @@ public class MainActivityClient extends ActionBarActivity {
                     Log.d("score", "The getFirst request failed.");
                 }
                 else {
-                    if(macDevice.equals(parseObject.get("EmployeeMAC").toString())) {
+                   // if(macDevice.equals(parseObject.get("EmployeeMAC").toString())) {
                         if (passcheck.equals(parseObject.get("Password").toString())) {
                             //redirect this to checkin checkout button
-                            Intent intent = new Intent(MainActivityClient.this, CheckInOut.class);
+                            Intent intent = new Intent(MainActivityClient.this,CheckInOut.class);
                             intent.putExtra("EmployeeID", empidString);
+                            //setContentView(R.layout.activity_check_in_out);
                             startActivity(intent);
                         } else {
                             TextView errtxt = (TextView)findViewById(R.id.errorText);
                             errtxt.setText("Password Incorrect!!!");
                             errtxt.setVisibility(View.VISIBLE);
                         }
-                    }
+                   /* }
                     else{
                         //loginerror
                         TextView errtxt = (TextView)findViewById(R.id.errorText);
                         errtxt.setText("MAC Address Not Registered!!!");
                         errtxt.setVisibility(View.VISIBLE);
-                    }
+                    }*/
                 }
             }
         });
-        if(query==null){
-            TextView errtxt = (TextView)findViewById(R.id.errorText);
-            errtxt.setText("LOGIN ERROR!!!");
-            errtxt.setVisibility(View.VISIBLE);
-        }
+        /*TextView errtxt = (TextView)findViewById(R.id.errorText);
+        errtxt.setText("LOGIN ERROR!!!");
+        errtxt.setVisibility(View.VISIBLE);*/
     }
 
     @Override
@@ -84,12 +87,6 @@ public class MainActivityClient extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
