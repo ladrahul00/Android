@@ -48,7 +48,7 @@ public class MainActivityClient extends ActionBarActivity {
                     Log.d("score", "The getFirst request failed.");
                 }
                 else {
-                   x if(macDevice.equals(parseObject.get("EmployeeMAC").toString())) {
+                   if(macDevice.equals(parseObject.get("EmployeeMAC").toString())) {
                         if (passcheck.equals(parseObject.get("Password").toString())) {
                             //redirect this to checkin checkout button
                             Intent intent = new Intent(MainActivityClient.this,CheckInOut.class);
