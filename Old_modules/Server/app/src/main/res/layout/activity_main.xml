@@ -3,17 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#ffffff">
+    android:background="@drawable/glowwall"
+    android:focusable="false"
+    android:focusableInTouchMode="false">
+
+    android:background="drawable/roundedbutton.xml"
+    android:background="@drawable/ripple.xml"
 
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="80dp"
         android:id="@+id/linearLayout">
 
-    </LinearLayout>
+    </LinearLayout>  -->
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,26 +26,28 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/textView"
-        android:layout_centerVertical="true"
+        android:layout_marginBottom="104dp"
+        android:layout_above="@+id/button"
         android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="@android:dimen/thumbnail_height"
-        android:layout_height="@android:dimen/notification_large_icon_height"
-        android:text="Clear Screen"
-        android:id="@+id/button"
-        android:onClick="fname"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="84dp" />
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@android:dimen/thumbnail_height"
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/gllogo" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button"
+        android:background="#000000"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/clg" />
+        android:layout_marginBottom="63dp" />
 
 
 </RelativeLayout>
