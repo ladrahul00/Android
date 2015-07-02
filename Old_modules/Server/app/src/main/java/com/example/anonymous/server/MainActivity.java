@@ -12,6 +12,11 @@ import android.os.Message;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -71,8 +76,6 @@ public class MainActivity extends Activity {
             //check for mac address of the main server enter it first
             ConnectThread mConnect = new ConnectThread();
             mConnect.start();
-            ConnectThread mConnect1 = new ConnectThread();
-            mConnect1.start();
             // off();
         }
     }
@@ -152,6 +155,8 @@ public class MainActivity extends Activity {
         private InputStream mmInStrteam;
         private OutputStream mmOutStream;
         private final BluetoothSocket mmSocket;
+        private String empid;
+        private String status;
         public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
             InputStream tempIn = null;
@@ -164,6 +169,26 @@ public class MainActivity extends Activity {
             mmInStrteam = tempIn;
             mmOutStream = tempOut;
         }
+
+        void parseMsg(String msg){
+            char m[]=msg.toCharArray();
+            char emparray[] = new char [100];
+            char st='\0';
+            for (int i=0;i<m.length;i++){
+                if(m[i]=='#'){
+                    st=m[i+1];
+                    break;
+                }
+                else
+                    emparray[i]=m[i];
+            }
+            empid=String.valueOf(emparray);
+            if(st=='0')
+                status="OUT";
+            else
+                status="IN";
+        }
+
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes = 0;
@@ -171,11 +196,18 @@ public class MainActivity extends Activity {
                 try {
                     bytes = mmInStrteam.read(buffer);
                     String m = new String(buffer);
-                    Message msg = myHandler.obtainMessage(1, m);
+                    parseMsg(m);
+                    ParseObject testObject = new ParseObject("EmployeeLog");
+                    testObject.put("EmployeeID", empid);
+                    Message msg = myHandler.obtainMessage(1, empid);
                     msg.sendToTarget();
-                    ParseObject testObject = new ParseObject("xEmpData");
-                    testObject.put("empid", m);
+                    String s="MMM d, y, HH:mm";
+                    SimpleDateFormat sdf = new SimpleDateFormat(s);
+                    String DateTime = sdf.format(new Date());
+                    testObject.put("Time",DateTime);
+                    testObject.put("Status",status);
                     testObject.saveInBackground();
+                    testObject.saveEventually();
                     byte [] xyz = "Successful".getBytes();
                     try {
                         mmOutStream.write(xyz);

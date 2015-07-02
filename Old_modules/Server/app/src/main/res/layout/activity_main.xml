@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity"
+    android:background="#ffffff">
 
 
     <LinearLayout
@@ -20,16 +21,26 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/textView"
-        android:layout_alignBottom="@+id/linearLayout"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
+        android:layout_width="@android:dimen/thumbnail_height"
+        android:layout_height="@android:dimen/notification_large_icon_height"
+        android:text="Clear Screen"
         android:id="@+id/button"
-        android:layout_centerVertical="true"
+        android:onClick="fname"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="fname"/>
+        android:layout_marginBottom="84dp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/clg" />
+
 
 </RelativeLayout>

@@ -14,6 +14,7 @@
         android:text="@string/InOutButton"
         android:id="@+id/button"
         android:onClick="sendMessage"
+<<<<<<< HEAD
         android:layout_above="@+id/ack"
         android:layout_centerHorizontal="true"
         android:background="@android:color/holo_green_light" />
@@ -54,4 +55,33 @@
         android:layout_below="@+id/imageView2"
         android:layout_centerHorizontal="true"
         android:background="@drawable/globantlogo" />
+=======
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="@dimen/abc_config_prefDialogWidth"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/show_status"
+        android:visibility="visible"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/ack"
+        android:layout_alignStart="@+id/ack"
+        android:layout_marginTop="76dp"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false" />
+
+    <TextView
+        android:layout_width="@dimen/abc_search_view_preferred_width"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/ack"
+        android:visibility="invisible"
+        android:layout_marginBottom="81dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+>>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
 </RelativeLayout>

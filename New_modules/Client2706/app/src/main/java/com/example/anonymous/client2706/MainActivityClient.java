@@ -48,7 +48,11 @@ public class MainActivityClient extends ActionBarActivity {
                     Log.d("score", "The getFirst request failed.");
                 }
                 else {
+<<<<<<< HEAD
                    // if(macDevice.equals(parseObject.get("EmployeeMAC").toString())) {
+=======
+                   if(macDevice.equals(parseObject.get("EmployeeMAC").toString())) {
+>>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
                         if (passcheck.equals(parseObject.get("Password").toString())) {
                             //redirect this to checkin checkout button
                             Intent intent = new Intent(MainActivityClient.this,CheckInOut.class);
@@ -87,6 +91,10 @@ public class MainActivityClient extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+<<<<<<< HEAD
+=======
+
+>>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
 
         return super.onOptionsItemSelected(item);
     }

@@ -55,14 +55,20 @@ public class CheckInOut extends ActionBarActivity {
 
         if(a==0){
             show_status.setText("You are inside.");
+<<<<<<< HEAD
             show_status.setTextColor(Color.WHITE);
+=======
+>>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
             button.setText("out");
         }
         else
         {
             show_status.setText("You are outside.");
+<<<<<<< HEAD
             show_status.setTextColor(Color.WHITE);
 
+=======
+>>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
             button.setText("in");}
 
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -78,6 +84,17 @@ public class CheckInOut extends ActionBarActivity {
 
     public void sendMessage(View v) throws InterruptedException {
         // take an instance of BluetoothAdapter - Bluetooth radio
+
+//        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+//        checkInOut = (Button)findViewById(R.id.button);
+        String mac = myBluetoothAdapter.getAddress();
+        if (!myBluetoothAdapter.isEnabled()) {
+            Intent turnOnIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(turnOnIntent, REQUEST_ENABLE_BT);
+        }
+        Bundle bundle = getIntent().getExtras();
+        employeeid=bundle.getString("EmployeeID");
+
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(myBluetoothAdapter == null) {
             Toast.makeText(getApplicationContext(), "Your device does not support Bluetooth",
@@ -250,7 +267,11 @@ public class CheckInOut extends ActionBarActivity {
             String data = msg.obj.toString();
             TextView tv = (TextView)findViewById(R.id.ack);
             tv.setText("Acknowledged by server");
+<<<<<<< HEAD
             tv.setTextColor(Color.WHITE);
+=======
+            tv.setTextColor(Color.BLUE);
+>>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
             tv.setVisibility(View.VISIBLE);
 
             Button button = (Button)findViewById(R.id.button);
@@ -265,7 +286,10 @@ public class CheckInOut extends ActionBarActivity {
                 editor.putInt("key_name", 1);
                 editor.commit();
                 show_status.setText("You got out");
+<<<<<<< HEAD
                 show_status.setTextColor(Color.WHITE);
+=======
+>>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
                 button.setText("IN");
             }
             else
@@ -273,7 +297,10 @@ public class CheckInOut extends ActionBarActivity {
                 editor.putInt("key_name", 0);
                 editor.commit();
                 show_status.setText("You got in");
+<<<<<<< HEAD
                 show_status.setTextColor(Color.WHITE);
+=======
+>>>>>>> 53f07a54e2e4984e41b039a15c19216ab8045d99
                 button.setText("OUT");
             }
         }
