@@ -17,14 +17,19 @@ public class widget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
-        final int N = appWidgetIds.length;
-        //for (int i = 0; i < N; i++) {
+        super.onUpdate(context,appWidgetManager,appWidgetIds);
+        for (int i = 0; i < appWidgetIds.length; i++) {
+            int appwidgtid = appWidgetIds[i];
+
+
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
             remoteViews.setOnClickPendingIntent(R.id.widget_button, buildButtonPendingIntent(context));
-            //updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
+
+
+
             pushWidgetUpdate(context, remoteViews);
-       // }
+        }
     }
 
 

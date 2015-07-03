@@ -53,6 +53,13 @@ public class CheckInOut extends ActionBarActivity {
         TextView show_status = (TextView)findViewById(R.id.show_status);
 
 
+        Bundle bundle = getIntent().getExtras();
+        employeeid=bundle.getString("EmployeeID");
+
+        editor.putString(employeeid, "BlandID");
+        editor.commit();
+
+
         if(a==0){
             show_status.setText("You are inside.");
             show_status.setTextColor(Color.WHITE);
@@ -72,8 +79,7 @@ public class CheckInOut extends ActionBarActivity {
             Intent turnOnIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(turnOnIntent, REQUEST_ENABLE_BT);
         }
-        Bundle bundle = getIntent().getExtras();
-        employeeid=bundle.getString("EmployeeID");
+
     }
 
     public void sendMessage(View v) throws InterruptedException {
@@ -81,6 +87,7 @@ public class CheckInOut extends ActionBarActivity {
 
 //        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 //        checkInOut = (Button)findViewById(R.id.button);
+
         String mac = myBluetoothAdapter.getAddress();
         if (!myBluetoothAdapter.isEnabled()) {
             Intent turnOnIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -106,7 +113,7 @@ public class CheckInOut extends ActionBarActivity {
             }
 
             SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref" , 0); //0 for private mode
-            Editor editor = pref.edit();
+            SharedPreferences.Editor editor = pref.edit();
             int a = pref.getInt("key_name",0);
             editor.commit();
             String msg = employeeid+"#"+String.valueOf(a);
@@ -156,7 +163,7 @@ public class CheckInOut extends ActionBarActivity {
     }
 
     //Thread to establish connection
-    private class ConnectThread extends Thread{
+    public class ConnectThread extends Thread{
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
         private final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -197,7 +204,7 @@ public class CheckInOut extends ActionBarActivity {
         }
     }
 
-    private class ConnectedThread extends Thread{
+    public class ConnectedThread extends Thread{
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;

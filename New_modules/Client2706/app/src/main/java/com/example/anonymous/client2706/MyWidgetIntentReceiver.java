@@ -4,8 +4,16 @@ import com.example.anonymous.client2706.R;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+
+//imports for shared preferences
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 /**
  * Created by shivang on 7/1/2015.
@@ -24,18 +32,14 @@ public class MyWidgetIntentReceiver extends BroadcastReceiver {
     private void updateWidgetPictureAndButtonListener(Context context) {
         Toast.makeText(context, "u clicked",Toast.LENGTH_SHORT).show();
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
-        remoteViews.setString(R.id.widget_button, "setText", "hey");
+//        remoteViews.setString(R.id.widget_button, "setText", "hey");
+        context.startService(new Intent(context,CheckInOut.class));
+        
 
-        //remoteViews.setImageViewResource(R.id.widget_image, getImageToSet(,));
 
-        //REMEMBER TO ALWAYS REFRESH YOUR BUTTON CLICK LISTENERS!!!
         remoteViews.setOnClickPendingIntent(R.id.widget_button, widget.buildButtonPendingIntent(context));
 
         widget.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
     }
 
-    //private int getImageToSet() {
-    //    clickCount++;
-    // return clickCount % 2 == 0 ? R.drawable.me : R.drawable.wordpress_icon;
-    // }
 }

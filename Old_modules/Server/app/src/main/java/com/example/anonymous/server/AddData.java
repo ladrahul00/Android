@@ -4,8 +4,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import com.javacodegeeks.android.bluetoothtest.R;
+import com.parse.ParseObject;
 
 
 public class AddData extends ActionBarActivity {
@@ -16,6 +19,16 @@ public class AddData extends ActionBarActivity {
         setContentView(R.layout.activity_add_data);
     }
 
+    public void addData(View v){
+        ParseObject pobj = new ParseObject("EmployeeData");
+        EditText empid = (EditText)findViewById(R.id.EmployeeID);
+        pobj.put("EmployeeID",empid.getText().toString());
+        EditText passwd = (EditText)findViewById(R.id.Password);
+        pobj.put("Password",passwd.getText().toString());
+        EditText mac = (EditText)findViewById(R.id.DeviceMac);
+        pobj.put("EmployeeMAC",mac.getText().toString());
+        pobj.saveInBackground();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

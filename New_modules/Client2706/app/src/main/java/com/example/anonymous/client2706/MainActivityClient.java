@@ -2,6 +2,7 @@ package com.example.anonymous.client2706;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,17 @@ public class MainActivityClient extends ActionBarActivity {
         setContentView(R.layout.activity_main_activity_client);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "ecNYEdsTREI9Mwzx5gWOoh2HB9V78KvVWe8W8iIA", "YHuKHkJdjm4gSdl6lrZavY9Sdx06Da1DPNNXy40p");
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref" , 0); //0 for private mode
+        SharedPreferences.Editor editor = pref.edit();
+
+        String empID = pref.getString("EmployeeIDKey", "blank");//receive from preference
+        editor.commit();
+
+        if(!empID.equals("blank")){
+            Intent intent = new Intent(this,CheckInOut.class);
+            intent.putExtra("EmployeeID", empID);
+            startActivity(intent);
+        }
     }
 
     public void loginCheck(View v){
@@ -51,9 +63,14 @@ public class MainActivityClient extends ActionBarActivity {
                    // if(macDevice.equals(parseObject.get("EmployeeMAC").toString())) {
                         if (passcheck.equals(parseObject.get("Password").toString())) {
                             //redirect this to checkin checkout button
+                            SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref" , 0); //0 for private mode
+                            SharedPreferences.Editor editor = pref.edit();
+
+                            editor.putString("EmployeeIDKey", empidString);//store empid into preferences
+                            editor.commit();
+
                             Intent intent = new Intent(MainActivityClient.this,CheckInOut.class);
                             intent.putExtra("EmployeeID", empidString);
-                            //setContentView(R.layout.activity_check_in_out);
                             startActivity(intent);
                         } else {
                             TextView errtxt = (TextView)findViewById(R.id.errorText);
@@ -70,9 +87,6 @@ public class MainActivityClient extends ActionBarActivity {
                 }
             }
         });
-        /*TextView errtxt = (TextView)findViewById(R.id.errorText);
-        errtxt.setText("LOGIN ERROR!!!");
-        errtxt.setVisibility(View.VISIBLE);*/
     }
 
     @Override
