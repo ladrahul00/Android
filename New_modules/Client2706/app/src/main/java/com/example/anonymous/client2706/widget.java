@@ -58,17 +58,6 @@ public class widget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
- /*  static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
-        Toast.makeText(context, "in update app widget",Toast.LENGTH_SHORT).show();
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
-        //views.setTextViewText(R.id.appwidget_text, widgetText);
-
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-    }*/
 }
 
 

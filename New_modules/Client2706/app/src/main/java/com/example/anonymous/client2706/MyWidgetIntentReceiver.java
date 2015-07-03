@@ -22,9 +22,7 @@ public class MyWidgetIntentReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "in on recieve",Toast.LENGTH_SHORT).show();
         if(intent.getAction().equals("pl.looksok.intent.action.CHANGE_PICTURE")){
-            Toast.makeText(context, "in on recieve",Toast.LENGTH_SHORT).show();
             updateWidgetPictureAndButtonListener(context);
         }
     }
@@ -32,7 +30,7 @@ public class MyWidgetIntentReceiver extends BroadcastReceiver {
     private void updateWidgetPictureAndButtonListener(Context context) {
         Toast.makeText(context, "u clicked",Toast.LENGTH_SHORT).show();
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
-//        remoteViews.setString(R.id.widget_button, "setText", "hey");
+
         context.startService(new Intent(context,CheckInOut.class));
         
 
