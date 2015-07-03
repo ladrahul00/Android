@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -21,11 +22,13 @@ public class widget extends AppWidgetProvider {
         for (int i = 0; i < appWidgetIds.length; i++) {
             int appwidgtid = appWidgetIds[i];
 
+                RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+                Intent configIntent = new Intent(context, CheckInOut.class);
+                configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appwidgtid);
+                PendingIntent pIntent = PendingIntent.getActivity(context, 0, configIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                remoteViews.setOnClickPendingIntent(R.id.widget_button, pIntent);
 
-
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
-            remoteViews.setOnClickPendingIntent(R.id.widget_button, buildButtonPendingIntent(context));
-
+                // remoteViews.setOnClickPendingIntent(R.id.widget_button, buildButtonPendingIntent(context));
 
 
             pushWidgetUpdate(context, remoteViews);
@@ -37,6 +40,8 @@ public class widget extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
+        Intent intent = new Intent(context,CheckInOut.class);
+        PendingIntent pendingIntent = PendingIntent.getService(context,0,intent,0);
 
     }
 

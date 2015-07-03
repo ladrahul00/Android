@@ -1,6 +1,8 @@
 package com.example.anonymous.client2706;
 
 import com.example.anonymous.client2706.R;
+
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,8 +33,7 @@ public class MyWidgetIntentReceiver extends BroadcastReceiver {
         Toast.makeText(context, "u clicked",Toast.LENGTH_SHORT).show();
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 
-        context.startService(new Intent(context,CheckInOut.class));
-        
+        //context.startService(new Intent(context,CheckInOut.class));
 
 
         remoteViews.setOnClickPendingIntent(R.id.widget_button, widget.buildButtonPendingIntent(context));
