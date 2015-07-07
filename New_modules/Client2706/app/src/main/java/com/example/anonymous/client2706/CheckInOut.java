@@ -76,8 +76,7 @@ public class CheckInOut extends ActionBarActivity {
         checkInOut = (Button)findViewById(R.id.button);
         String mac = myBluetoothAdapter.getAddress();
         if (!myBluetoothAdapter.isEnabled()) {
-            Intent turnOnIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(turnOnIntent, REQUEST_ENABLE_BT);
+            myBluetoothAdapter.enable();
         }
 
     }
@@ -90,8 +89,7 @@ public class CheckInOut extends ActionBarActivity {
 
         String mac = myBluetoothAdapter.getAddress();
         if (!myBluetoothAdapter.isEnabled()) {
-            Intent turnOnIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(turnOnIntent, REQUEST_ENABLE_BT);
+            myBluetoothAdapter.enable();
         }
         Bundle bundle = getIntent().getExtras();
         employeeid=bundle.getString("EmployeeID");
