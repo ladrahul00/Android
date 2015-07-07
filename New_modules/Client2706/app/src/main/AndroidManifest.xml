@@ -53,6 +53,7 @@
             android:name=".WidgetDataSend"
             android:label="@string/title_activity_widget_data_send" >
         </activity>
+        <service android:name=".WidgetService"></service>
     </application>
 
 </manifest>
