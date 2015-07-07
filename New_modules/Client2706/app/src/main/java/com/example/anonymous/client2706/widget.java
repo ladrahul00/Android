@@ -23,15 +23,15 @@ public class widget extends AppWidgetProvider {
             int appwidgtid = appWidgetIds[i];
 
                 RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
-                Intent configIntent = new Intent(context, CheckInOut.class);
+                Intent configIntent = new Intent(context.getApplicationContext(), WidgetService.class);
                 configIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appwidgtid);
                 PendingIntent pIntent = PendingIntent.getActivity(context, 0, configIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 remoteViews.setOnClickPendingIntent(R.id.widget_button, pIntent);
-
+                //remoteViews.setOnClickFillInIntent();
                 // remoteViews.setOnClickPendingIntent(R.id.widget_button, buildButtonPendingIntent(context));
 
-
             pushWidgetUpdate(context, remoteViews);
+            context.startService(configIntent);
         }
     }
 
