@@ -49,10 +49,6 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
-        <activity
-            android:name=".WidgetDataSend"
-            android:label="@string/title_activity_widget_data_send" >
-        </activity>
         <service android:name=".WidgetService"></service>
     </application>
 

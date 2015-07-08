@@ -3,6 +3,7 @@ package com.example.anonymous.client2706;
 import com.example.anonymous.client2706.R;
 
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,13 +33,13 @@ public class MyWidgetIntentReceiver extends BroadcastReceiver {
     private void updateWidgetPictureAndButtonListener(Context context) {
         Toast.makeText(context, "u clicked",Toast.LENGTH_SHORT).show();
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+        Intent configIntent = new Intent(context.getApplicationContext(), WidgetService.class);
 
-        //context.startService(new Intent(context,CheckInOut.class));
-
+        context.startService(configIntent);
 
         remoteViews.setOnClickPendingIntent(R.id.widget_button, widget.buildButtonPendingIntent(context));
-
         widget.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
+
     }
 
 }
