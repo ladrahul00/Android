@@ -7,12 +7,16 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by ANONYMOUS on 07-07-2015.
@@ -22,8 +26,8 @@ public class WidgetService extends Service {
     private BluetoothAdapter myBluetoothAdapter;
     private Set<BluetoothDevice> pairedDevices;
     private BluetoothDevice mdevice;
-    @Override
-    public void onStart(Intent intent, int startId) {
+
+    public void onCreate(){
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(!myBluetoothAdapter.isEnabled()){
             myBluetoothAdapter.enable();
@@ -50,6 +54,37 @@ public class WidgetService extends Service {
         connectWidgetThread.start();
 
 
+    }
+
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(!myBluetoothAdapter.isEnabled()){
+            myBluetoothAdapter.enable();
+        }
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref",0);
+        SharedPreferences.Editor editor = pref.edit();
+        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(!myBluetoothAdapter.isEnabled()) {
+            myBluetoothAdapter.enable();
+        }
+        // remoteViews.setOnClickPendingIntent(R.id.widget_button, buildButtonPendingIntent(context));
+
+
+        while(!myBluetoothAdapter.isEnabled());
+        String macAdd="90:68:C3:48:EA:B1";
+        mdevice = search(macAdd);
+        int a=pref.getInt("key_name",0);
+        editor.commit();
+        String empid = pref.getString("EmployeeIDKey","blank");
+        editor.commit();
+        String msg = empid+"#"+String.valueOf(a);
+        ConnectWidgetThread connectWidgetThread = new ConnectWidgetThread(mdevice,msg);
+        connectWidgetThread.start();
+
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override

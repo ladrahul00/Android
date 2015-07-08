@@ -29,9 +29,9 @@ public class widget extends AppWidgetProvider {
                 remoteViews.setOnClickPendingIntent(R.id.widget_button, pIntent);
                 //remoteViews.setOnClickFillInIntent();
                 // remoteViews.setOnClickPendingIntent(R.id.widget_button, buildButtonPendingIntent(context));
-
-            pushWidgetUpdate(context, remoteViews);
             context.startService(configIntent);
+            pushWidgetUpdate(context, remoteViews);
+
         }
     }
 
