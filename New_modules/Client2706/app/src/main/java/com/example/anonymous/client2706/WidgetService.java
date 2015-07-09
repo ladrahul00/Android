@@ -45,7 +45,7 @@ public class WidgetService extends Service {
 
         while(!myBluetoothAdapter.isEnabled());
         String macAdd="90:68:C3:48:EA:B1";
-        mdevice = search(macAdd);
+            mdevice = search(macAdd);
         int a=pref.getInt("key_name",0);
         editor.commit();
         String empid = pref.getString("EmployeeIDKey","blank");
@@ -77,10 +77,6 @@ public class WidgetService extends Service {
         while(!myBluetoothAdapter.isEnabled());
         String macAdd="90:68:C3:48:EA:B1";
         mdevice = search(macAdd);
-        if (mdevice==null)
-        {
-           // Toast.makeText(context, "not in company premises", Toast.LENGTH_SHORT).show();
-        }
         int a=pref.getInt("key_name",0);
         editor.commit();
         String empid = pref.getString("EmployeeIDKey","blank");
@@ -105,14 +101,10 @@ public class WidgetService extends Service {
         for(BluetoothDevice device : pairedDevices) {
             if (device.getAddress().toString().equals(macAdd)) {
                 dev = device;
+                return dev;
             }
-            else
-            {
-                BluetoothAdapter badapt = BluetoothAdapter.getDefaultAdapter();
-                badapt.disable();
-            }
-            return dev;
         }
+
         throw null;
     }
 
@@ -130,6 +122,7 @@ public class WidgetService extends Service {
                 Thread.sleep(10);
             }catch(IOException e){}
             catch(Exception e){}
+
             mmSocket = temp;
         }
 
@@ -141,6 +134,8 @@ public class WidgetService extends Service {
                 try{
                     mmSocket.close();
                 }catch(IOException ee){}
+                BluetoothAdapter badapt = BluetoothAdapter.getDefaultAdapter();
+                badapt.disable();
                 return;
             }
             ConnectedWidgetThread connectedWidgetThread = new ConnectedWidgetThread(mmSocket,employeeID);
