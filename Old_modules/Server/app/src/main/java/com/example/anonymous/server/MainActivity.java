@@ -88,6 +88,18 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    public void on() {
+        if (!myBluetoothAdapter.isEnabled()) {
+            Intent turnOnIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(turnOnIntent, REQUEST_ENABLE_BT);
+
+            Toast.makeText(getApplicationContext(), "Bluetooth turned on",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Bluetooth is already on",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -192,10 +204,15 @@ public class MainActivity extends Activity {
                     testObject.put("EmployeeID", empid);
                     Message msg = myHandler.obtainMessage(1, empid);
                     msg.sendToTarget();
+                    String dtype = "DD / MM / YYYY";
+                    String tType = "HH:mm:ss";
                     String s="MMM d, y, HH:mm";
-                    SimpleDateFormat sdf = new SimpleDateFormat(s);
-                    String DateTime = sdf.format(new Date());
-                    testObject.put("Time",DateTime);
+                    SimpleDateFormat sdf = new SimpleDateFormat(dtype);
+                    SimpleDateFormat stf = new SimpleDateFormat(tType);
+                    String Date = sdf.format(new Date());
+                    String time = stf.format(new Date());
+                    testObject.put("Date",Date);
+                    testObject.put("Time",time);
                     testObject.put("Status",status);
                     testObject.saveInBackground();
                     testObject.saveEventually();

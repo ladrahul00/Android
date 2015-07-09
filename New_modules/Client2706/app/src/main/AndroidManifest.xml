@@ -41,7 +41,7 @@
             android:name=".MyWidgetIntentReceiver"
             android:label="widgetBroadcastReceiver" >
             <intent-filter>
-                <action android:name="pl.looksok.intent.action.CHANGE_PICTURE" />
+                <action android:name="android.bluetooth.rec" />
             </intent-filter>
 
             <meta-data
