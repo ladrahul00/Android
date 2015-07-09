@@ -19,6 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".EmployeeLog"
+            android:label="@string/title_activity_employee_log" >
+        </activity>
     </application>
 
 </manifest>

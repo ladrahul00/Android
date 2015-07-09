@@ -8,7 +8,7 @@
 
     <shape
         android:innerRadiusRatio="3"
-        android:shape="ring"
+        android:shape="oval"
         android:thicknessRatio="7.0">
 
         <gradient
@@ -19,5 +19,7 @@
             android:type="sweep"
             android:useLevel="false" />
     </shape>
+
+
 
 </rotate>
