@@ -19,8 +19,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.util.List;
-
 
 public class MainActivityClient extends ActionBarActivity {
     @Override
@@ -59,10 +57,9 @@ public class MainActivityClient extends ActionBarActivity {
                 if (parseObject == null) {
                     Log.d("score", "The getFirst request failed.");
                 }
-                else {
-                   // if(macDevice.equals(parseObject.get("EmployeeMAC").toString())) {
+                else
+                {
                         if (passcheck.equals(parseObject.get("Password").toString())) {
-                            //redirect this to checkin checkout button
                             SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref" , 0); //0 for private mode
                             SharedPreferences.Editor editor = pref.edit();
 
@@ -77,31 +74,9 @@ public class MainActivityClient extends ActionBarActivity {
                             errtxt.setText("Password Incorrect!!!");
                             errtxt.setVisibility(View.VISIBLE);
                         }
-                   /* }
-                    else{
-                        //loginerror
-                        TextView errtxt = (TextView)findViewById(R.id.errorText);
-                        errtxt.setText("MAC Address Not Registered!!!");
-                        errtxt.setVisibility(View.VISIBLE);
-                    }*/
                 }
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_activity_client, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        return super.onOptionsItemSelected(item);
-    }
 }
