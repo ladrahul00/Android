@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
                     Toast.LENGTH_LONG).show();
         } else {
             //write onclick listener here
-            on();
+            myBluetoothAdapter.enable();
             while (!myBluetoothAdapter.isEnabled()) ;  //wait till bluetooth is on
             //send it to a particular mac address
             //check for mac address of the main server enter it first
@@ -88,18 +88,6 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    public void on() {
-        if (!myBluetoothAdapter.isEnabled()) {
-            Intent turnOnIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(turnOnIntent, REQUEST_ENABLE_BT);
-
-            Toast.makeText(getApplicationContext(), "Bluetooth turned on",
-                    Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "Bluetooth is already on",
-                    Toast.LENGTH_LONG).show();
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
