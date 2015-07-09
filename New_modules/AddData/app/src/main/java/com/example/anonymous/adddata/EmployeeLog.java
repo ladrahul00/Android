@@ -57,7 +57,7 @@ public class EmployeeLog extends ActionBarActivity {
                 query.findInBackground(new FindCallBack<ParseObject>(){
                    public void done(List<ParseObject> scoreList,ParseException e){
                        if(e==null){
-                           
+
                        }
                        else{
                            //error

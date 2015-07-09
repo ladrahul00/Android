@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,6 +77,10 @@ public class WidgetService extends Service {
         while(!myBluetoothAdapter.isEnabled());
         String macAdd="90:68:C3:48:EA:B1";
         mdevice = search(macAdd);
+        if (mdevice==null)
+        {
+           // Toast.makeText(context, "not in company premises", Toast.LENGTH_SHORT).show();
+        }
         int a=pref.getInt("key_name",0);
         editor.commit();
         String empid = pref.getString("EmployeeIDKey","blank");
@@ -100,8 +105,13 @@ public class WidgetService extends Service {
         for(BluetoothDevice device : pairedDevices) {
             if (device.getAddress().toString().equals(macAdd)) {
                 dev = device;
-                return dev;
             }
+            else
+            {
+                BluetoothAdapter badapt = BluetoothAdapter.getDefaultAdapter();
+                badapt.disable();
+            }
+            return dev;
         }
         throw null;
     }
