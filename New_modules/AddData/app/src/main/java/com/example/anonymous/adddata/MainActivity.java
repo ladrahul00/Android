@@ -12,6 +12,9 @@ import android.widget.EditText;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends ActionBarActivity {
 
     @Override
@@ -23,14 +26,29 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void addData(View v){
-        /*ParseObject pobj = new ParseObject("EmployeeData");
+        ParseObject pobj = new ParseObject("EmployeeData");
         EditText empid = (EditText)findViewById(R.id.EmployeeID);
         pobj.put("EmployeeID",empid.getText().toString());
         EditText passwd = (EditText)findViewById(R.id.Password);
         pobj.put("Password",passwd.getText().toString());
         String mac= BluetoothAdapter.getDefaultAdapter().getAddress();
         pobj.put("EmployeeMAC",mac);
-        pobj.saveInBackground();*/
+        pobj.saveInBackground();
+        String dtype = "d / m / y";
+        String tType = "HH:mm";
+        //String s="MMM d, y, HH:mm";
+        SimpleDateFormat sdf = new SimpleDateFormat(dtype);
+        SimpleDateFormat stf = new SimpleDateFormat(tType);
+        String Date = sdf.format(new Date());
+        String time = stf.format(new Date());
+        ParseObject testObject = new ParseObject("EmployeeLog");
+        testObject.put("EmployeeID", empid.getText().toString());
+        testObject.put("Date",Date);
+        testObject.put("Time",time);
+        testObject.put("Status","xyz");
+        testObject.saveInBackground();
+        testObject.saveEventually();
+
         Intent intent = new Intent(this,EmployeeLog.class);
         startActivity(intent);
     }
