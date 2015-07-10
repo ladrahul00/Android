@@ -32,6 +32,7 @@ public class EmployeeLog extends ActionBarActivity {
     SeekBar seekBar;
     ListView listView;
     private ArrayAdapter<String> lvArrayAdapter;
+    int progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +40,6 @@ public class EmployeeLog extends ActionBarActivity {
         //Parse.enableLocalDatastore(this);
         //Parse.initialize(this, "ecNYEdsTREI9Mwzx5gWOoh2HB9V78KvVWe8W8iIA", "YHuKHkJdjm4gSdl6lrZavY9Sdx06Da1DPNNXy40p");
 
-        listView = (ListView)findViewById(R.id.listView);
-        lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
-        listView.setAdapter(lvArrayAdapter);
-        final int[] progress = new int[1];
         seekBar = (SeekBar)findViewById(R.id.seekBar);
         seekBar.setMax(100);
 
@@ -50,7 +47,7 @@ public class EmployeeLog extends ActionBarActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progvalue, boolean fromUser) {
-                progress[0] =progvalue;
+                progress = progvalue;
             }
 
             @Override
@@ -60,19 +57,37 @@ public class EmployeeLog extends ActionBarActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-               // progress=seekBar.getProgress();
-                Toast.makeText(EmployeeLog.this,"seek bar progress:"+ progress[0],
+                // progress=seekBar.getProgress();
+                Toast.makeText(EmployeeLog.this, "seek bar progress:" + progress,
                         Toast.LENGTH_SHORT).show();
-
-
 
 
             }
         });
 
-        String dType = "d / m / y";
+    }
+
+    public void showLogs(View v) throws ParseException {
+
+        lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+
+        progress = seekBar.getProgress();
+        progress=Math.abs(progress - 100);
+
+        int k=progress*24*60*60*1000;
+
+
+
+        String dType = "dd / MM / yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dType);
+ /*       Date mDate;
+        try {
+            mDate = sdf.parse(dType);
+        }catch(ParseException e){}
+*/
         String CurrentDate = sdf.format(new Date());
+
+
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeLog");
         query.whereEqualTo("Date", CurrentDate);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -81,21 +96,17 @@ public class EmployeeLog extends ActionBarActivity {
                 if (e == null) {
                     for (int i = 0; i < list.size(); i++) {
                         ParseObject pobj = list.get(i);
-                        String str = pobj.get("EmployeeID").toString() + "\t" + pobj.get("Status") + "\t" + pobj.get("Time");
+                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time");
                         lvArrayAdapter.add(str);
                     }
                 } else {
-                    //error
+                    String str="No Records found";
+                    lvArrayAdapter.add(str);
                 }
             }
         });
-
-    }
-
-    public void showLogs(View v){
-        EditText EmpIDEditText = (EditText)findViewById(R.id.editText);
-        String empid = EmpIDEditText.getText().toString();
-
+        listView = (ListView)findViewById(R.id.listView);
+        listView.setAdapter(lvArrayAdapter);
     }
 
     @Override

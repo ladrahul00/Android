@@ -26,16 +26,13 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void addData(View v){
-        ParseObject pobj = new ParseObject("EmployeeData");
+
         EditText empid = (EditText)findViewById(R.id.EmployeeID);
-        pobj.put("EmployeeID",empid.getText().toString());
+
         EditText passwd = (EditText)findViewById(R.id.Password);
-        pobj.put("Password",passwd.getText().toString());
-        String mac= BluetoothAdapter.getDefaultAdapter().getAddress();
-        pobj.put("EmployeeMAC",mac);
-        pobj.saveInBackground();
-        String dtype = "d / m / y";
-        String tType = "HH:mm";
+
+        String dtype = "dd / MM / yyyy";
+        String tType = "HH:mm:ss";
         //String s="MMM d, y, HH:mm";
         SimpleDateFormat sdf = new SimpleDateFormat(dtype);
         SimpleDateFormat stf = new SimpleDateFormat(tType);
