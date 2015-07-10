@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,22 +30,15 @@ public class WidgetService extends Service {
 
     public void onCreate(){
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(!myBluetoothAdapter.isEnabled()){
+        if(!myBluetoothAdapter.isEnabled())
+        {
             myBluetoothAdapter.enable();
         }
-
         SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref",0);
         SharedPreferences.Editor editor = pref.edit();
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(!myBluetoothAdapter.isEnabled()) {
-            myBluetoothAdapter.enable();
-        }
-        // remoteViews.setOnClickPendingIntent(R.id.widget_button, buildButtonPendingIntent(context));
-
-
-        while(!myBluetoothAdapter.isEnabled());
         String macAdd="90:68:C3:48:EA:B1";
-        mdevice = search(macAdd);
+            mdevice = search(macAdd);
         int a=pref.getInt("key_name",0);
         editor.commit();
         String empid = pref.getString("EmployeeIDKey","blank");
@@ -52,8 +46,6 @@ public class WidgetService extends Service {
         String msg = empid+"#"+String.valueOf(a);
         ConnectWidgetThread connectWidgetThread = new ConnectWidgetThread(mdevice,msg);
         connectWidgetThread.start();
-
-
     }
 
 
@@ -63,16 +55,8 @@ public class WidgetService extends Service {
         if(!myBluetoothAdapter.isEnabled()){
             myBluetoothAdapter.enable();
         }
-
         SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref",0);
         SharedPreferences.Editor editor = pref.edit();
-        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(!myBluetoothAdapter.isEnabled()) {
-            myBluetoothAdapter.enable();
-        }
-        // remoteViews.setOnClickPendingIntent(R.id.widget_button, buildButtonPendingIntent(context));
-
-
         while(!myBluetoothAdapter.isEnabled());
         String macAdd="90:68:C3:48:EA:B1";
         mdevice = search(macAdd);
@@ -83,7 +67,6 @@ public class WidgetService extends Service {
         String msg = empid+"#"+String.valueOf(a);
         ConnectWidgetThread connectWidgetThread = new ConnectWidgetThread(mdevice,msg);
         connectWidgetThread.start();
-
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -92,19 +75,21 @@ public class WidgetService extends Service {
         return null;
     }
 
-    private BluetoothDevice search(String macAdd){
+    private BluetoothDevice search(String macAdd)
+    {
         pairedDevices = myBluetoothAdapter.getBondedDevices();
         BluetoothDevice dev=null;
-        //find a device with server devices's mac address
-        // put it's one to the adapter
-        for(BluetoothDevice device : pairedDevices) {
-            if (device.getAddress().toString().equals(macAdd)) {
+        for(BluetoothDevice device : pairedDevices)
+        {
+            if (device.getAddress().toString().equals(macAdd))
+            {
                 dev = device;
                 return dev;
             }
         }
         throw null;
     }
+
 
     public class ConnectWidgetThread extends Thread{
         private final BluetoothSocket mmSocket;
@@ -131,6 +116,8 @@ public class WidgetService extends Service {
                 try{
                     mmSocket.close();
                 }catch(IOException ee){}
+                BluetoothAdapter badapt = BluetoothAdapter.getDefaultAdapter();
+                badapt.disable();
                 return;
             }
             ConnectedWidgetThread connectedWidgetThread = new ConnectedWidgetThread(mmSocket,employeeID);
@@ -144,8 +131,8 @@ public class WidgetService extends Service {
         }
     }
 
-    public class ConnectedWidgetThread extends Thread{
-
+    public class ConnectedWidgetThread extends Thread
+    {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
@@ -156,12 +143,10 @@ public class WidgetService extends Service {
             InputStream tempIn = null;
             OutputStream tempOut = null;
             empData = data;
-
             try{
                 tempIn = socket.getInputStream();
                 tempOut = socket.getOutputStream();
             }catch(IOException e){}
-
             mmInStream = tempIn;
             mmOutStream = tempOut;
         }
@@ -171,7 +156,6 @@ public class WidgetService extends Service {
             int bytes;
             while(true){
                 try{
-                    //Thread.sleep(300);
                     mmOutStream.write(buffer);
                     break;
                 }   catch (Exception e){ }
@@ -186,8 +170,6 @@ public class WidgetService extends Service {
                 byte [] xyz = new byte[1024];
                 bytes = mmInStream.read(xyz);
                 String m = new String(xyz);
-                //acknowledge message here
-                //       break;
             } catch (IOException e) {
                 e.printStackTrace();
             }

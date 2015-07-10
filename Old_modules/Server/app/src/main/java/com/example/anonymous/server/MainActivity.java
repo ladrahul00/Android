@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
                     Toast.LENGTH_LONG).show();
         } else {
             //write onclick listener here
-            on();
+            myBluetoothAdapter.enable();
             while (!myBluetoothAdapter.isEnabled()) ;  //wait till bluetooth is on
             //send it to a particular mac address
             //check for mac address of the main server enter it first
@@ -204,10 +204,15 @@ public class MainActivity extends Activity {
                     testObject.put("EmployeeID", empid);
                     Message msg = myHandler.obtainMessage(1, empid);
                     msg.sendToTarget();
-                    String s="MMM d, y, HH:mm";
-                    SimpleDateFormat sdf = new SimpleDateFormat(s);
-                    String DateTime = sdf.format(new Date());
-                    testObject.put("Time",DateTime);
+                    String dtype = "d / m / y";
+                    String tType = "HH:mm";
+                    //String s="MMM d, y, HH:mm";
+                    SimpleDateFormat sdf = new SimpleDateFormat(dtype);
+                    SimpleDateFormat stf = new SimpleDateFormat(tType);
+                    String Date = sdf.format(new Date());
+                    String time = stf.format(new Date());
+                    testObject.put("Date",Date);
+                    testObject.put("Time",time);
                     testObject.put("Status",status);
                     testObject.saveInBackground();
                     testObject.saveEventually();

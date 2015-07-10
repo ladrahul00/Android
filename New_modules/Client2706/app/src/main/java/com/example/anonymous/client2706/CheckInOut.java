@@ -152,13 +152,6 @@ public class CheckInOut extends ActionBarActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return super.onOptionsItemSelected(item);
-    }
 
     //Thread to establish connection
     public class ConnectThread extends Thread{
@@ -228,7 +221,6 @@ public class CheckInOut extends ActionBarActivity {
             int bytes;
             while(true){
                 try{
-                    //Thread.sleep(300);
                     mmOutStream.write(buffer);
                     break;
                 }   catch (Exception e){ }

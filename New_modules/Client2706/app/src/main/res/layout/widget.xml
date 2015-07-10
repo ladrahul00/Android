@@ -3,11 +3,10 @@
     android:padding="@dimen/widget_margin" android:background="#09C">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="click me"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="in/out"
         android:id="@+id/widget_button"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         />
 </RelativeLayout>
