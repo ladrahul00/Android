@@ -268,7 +268,7 @@ public class CheckInOut extends ActionBarActivity {
                 editor.commit();
                 show_status.setText("You got out");
                 show_status.setTextColor(Color.WHITE);
-
+                button.setBackgroundResource(R.drawable.in);
                 button.setText("IN");
             }
             else
@@ -278,6 +278,7 @@ public class CheckInOut extends ActionBarActivity {
                 show_status.setText("You got in");
                 show_status.setTextColor(Color.WHITE);
                 button.setText("OUT");
+                button.setBackgroundResource(R.drawable.out);
             }
         }
     };

@@ -9,15 +9,15 @@
 
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:text="@string/InOutButton"
         android:id="@+id/button"
         android:onClick="sendMessage"
-        android:background="@android:color/holo_green_light"
+        android:background="@drawable/butshadow"
         android:layout_below="@+id/show_status"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp" />
+         />
 
 
     <TextView
