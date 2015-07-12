@@ -1,12 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:padding="@dimen/widget_margin" android:background="#09C">
+    android:padding="@dimen/widget_margin">
 
-    <Button
+
+
+    <ImageButton
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="in/out"
-        android:id="@+id/widget_button"
+        android:id="@+id/imageButton"
         android:layout_centerHorizontal="true"
-        />
+        android:adjustViewBounds="false"
+        android:background="@drawable/glb" />
 </RelativeLayout>

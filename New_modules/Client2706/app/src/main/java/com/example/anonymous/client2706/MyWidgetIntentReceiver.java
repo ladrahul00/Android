@@ -26,7 +26,7 @@ public class MyWidgetIntentReceiver extends BroadcastReceiver {
         Intent configIntent = new Intent(context.getApplicationContext(), WidgetService.class);
         context.startService(configIntent);
 
-        remoteViews.setOnClickPendingIntent(R.id.widget_button, widget.buildButtonPendingIntent(context));
+        remoteViews.setOnClickPendingIntent(R.id.imageButton, widget.buildButtonPendingIntent(context));
         widget.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
     }
 

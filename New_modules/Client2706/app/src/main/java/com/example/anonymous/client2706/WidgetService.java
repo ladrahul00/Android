@@ -30,22 +30,27 @@ public class WidgetService extends Service {
 
     public void onCreate(){
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(!myBluetoothAdapter.isEnabled())
-        {
+        if(!myBluetoothAdapter.isEnabled()){
             myBluetoothAdapter.enable();
         }
         SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref",0);
         SharedPreferences.Editor editor = pref.edit();
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         String macAdd="90:68:C3:48:EA:B1";
-            mdevice = search(macAdd);
+        mdevice = search(macAdd);
         int a=pref.getInt("key_name",0);
         editor.commit();
         String empid = pref.getString("EmployeeIDKey","blank");
         editor.commit();
-        String msg = empid+"#"+String.valueOf(a);
-        ConnectWidgetThread connectWidgetThread = new ConnectWidgetThread(mdevice,msg);
-        connectWidgetThread.start();
+        if(empid.equals("blank")){
+            Intent intent = new Intent(WidgetService.this,MainActivityClient.class);
+            this.startActivity(intent);
+        }
+        else {
+            String msg = empid + "#" + String.valueOf(a);
+            ConnectWidgetThread connectWidgetThread = new ConnectWidgetThread(mdevice, msg);
+            connectWidgetThread.start();
+        }
     }
 
 
@@ -57,16 +62,22 @@ public class WidgetService extends Service {
         }
         SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref",0);
         SharedPreferences.Editor editor = pref.edit();
-        while(!myBluetoothAdapter.isEnabled());
+        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         String macAdd="90:68:C3:48:EA:B1";
         mdevice = search(macAdd);
         int a=pref.getInt("key_name",0);
         editor.commit();
         String empid = pref.getString("EmployeeIDKey","blank");
         editor.commit();
-        String msg = empid+"#"+String.valueOf(a);
-        ConnectWidgetThread connectWidgetThread = new ConnectWidgetThread(mdevice,msg);
-        connectWidgetThread.start();
+        if(empid.equals("blank")){
+            Intent intentMain = new Intent(WidgetService.this,MainActivityClient.class);
+            this.startActivity(intentMain);
+        }
+        else {
+            String msg = empid + "#" + String.valueOf(a);
+            ConnectWidgetThread connectWidgetThread = new ConnectWidgetThread(mdevice, msg);
+            connectWidgetThread.start();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
