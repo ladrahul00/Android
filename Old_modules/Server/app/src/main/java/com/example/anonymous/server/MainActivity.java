@@ -204,10 +204,10 @@ public class MainActivity extends Activity {
                     testObject.put("EmployeeID", empid);
                     Message msg = myHandler.obtainMessage(1, empid);
                     msg.sendToTarget();
-                    String dtype = "d / m / y";
-                    String tType = "HH:mm";
+                    String dType = "dd / MM / yyyy";
+                    String tType = "HH:mm:ss";
                     //String s="MMM d, y, HH:mm";
-                    SimpleDateFormat sdf = new SimpleDateFormat(dtype);
+                    SimpleDateFormat sdf = new SimpleDateFormat(dType);
                     SimpleDateFormat stf = new SimpleDateFormat(tType);
                     String Date = sdf.format(new Date());
                     String time = stf.format(new Date());

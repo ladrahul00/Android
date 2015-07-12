@@ -23,6 +23,14 @@
             android:name=".EmployeeLog"
             android:label="@string/title_activity_employee_log" >
         </activity>
+        <activity
+            android:name=".addemployeee"
+            android:label="@string/title_activity_addemployeee" >
+        </activity>
+        <activity
+            android:name=".removeemployee"
+            android:label="@string/title_activity_removeemployee" >
+        </activity>
     </application>
 
 </manifest>

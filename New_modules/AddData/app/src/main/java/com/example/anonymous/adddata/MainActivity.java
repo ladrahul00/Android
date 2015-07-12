@@ -1,18 +1,17 @@
 package com.example.anonymous.adddata;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
 
+import com.example.anonymous.adddata.EmployeeLog;
+import com.example.anonymous.adddata.R;
+import com.parse.Parse;
 
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -24,28 +23,18 @@ public class MainActivity extends ActionBarActivity {
         Parse.initialize(this, "ecNYEdsTREI9Mwzx5gWOoh2HB9V78KvVWe8W8iIA", "YHuKHkJdjm4gSdl6lrZavY9Sdx06Da1DPNNXy40p");
     }
 
-    public void addData(View v){
+    public void view_log(View v){
+        Intent intent = new Intent(MainActivity.this, EmployeeLog.class);
+        startActivity(intent);
+    }
 
-        EditText empid = (EditText)findViewById(R.id.EmployeeID);
+    public void add_employee(View v){
+        Intent intent = new Intent(MainActivity.this,addemployeee.class);
+        startActivity(intent);
+    }
 
-        EditText passwd = (EditText)findViewById(R.id.Password);
-
-        String dtype = "dd / MM / yyyy";
-        String tType = "HH:mm:ss";
-        //String s="MMM d, y, HH:mm";
-        SimpleDateFormat sdf = new SimpleDateFormat(dtype);
-        SimpleDateFormat stf = new SimpleDateFormat(tType);
-        String Date = sdf.format(new Date());
-        String time = stf.format(new Date());
-        ParseObject testObject = new ParseObject("EmployeeLog");
-        testObject.put("EmployeeID", empid.getText().toString());
-        testObject.put("Date",Date);
-        testObject.put("Time",time);
-        testObject.put("Status","xyz");
-        testObject.saveInBackground();
-        testObject.saveEventually();
-
-        Intent intent = new Intent(this,EmployeeLog.class);
+    public void remove_employee(View v){
+        Intent intent = new Intent(MainActivity.this,removeemployee.class);
         startActivity(intent);
     }
 
@@ -55,6 +44,8 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

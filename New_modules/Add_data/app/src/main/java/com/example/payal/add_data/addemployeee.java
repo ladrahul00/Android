@@ -25,12 +25,11 @@ public class addemployeee extends ActionBarActivity {
         ParseObject pobj = new ParseObject("EmployeeData");
         EditText empid = (EditText)findViewById(R.id.EmployeeID);
         pobj.put("EmployeeID",empid.getText().toString());
-        EditText passwd = (EditText)findViewById(R.id.Password);
-        pobj.put("Password",passwd.getText().toString());
         EditText macadd = (EditText)findViewById(R.id.macadd);
         pobj.put("MacAddress",macadd.getText().toString());
         EditText cardno = (EditText)findViewById(R.id.cardno);
         pobj.put("CardNo",cardno.getText().toString());
+
         pobj.saveInBackground();
     }
 
