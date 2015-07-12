@@ -53,13 +53,6 @@ public class CheckInOut extends ActionBarActivity {
         TextView show_status = (TextView)findViewById(R.id.show_status);
 
 
-        Bundle bundle = getIntent().getExtras();
-        employeeid=bundle.getString("EmployeeID");
-
-        editor.putString(employeeid, "BlandID");
-        editor.commit();
-
-
         if(a==0){
             show_status.setText("You are inside.");
             show_status.setTextColor(Color.WHITE);
