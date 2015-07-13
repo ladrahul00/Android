@@ -108,9 +108,13 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
 
                         editor.putString("EmployeeIDKey", empidString);//store empid into preferences
                         editor.commit();
+                        addGeofencesButtonHandler();
                     }
                 }
             });
+        }
+        else{
+            addGeofencesButtonHandler();
         }
     }
 
@@ -161,7 +165,7 @@ public class MainActivity extends ActionBarActivity implements ConnectionCallbac
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public void addGeofencesButtonHandler(View view) {
+    public void addGeofencesButtonHandler() {
         if (!mGoogleApiClient.isConnected()) {
             //Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
             return;
