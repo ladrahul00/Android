@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Bazzinga!!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_check_in_out">CheckInOut</string>
+    <string name="InOutButton">New Button</string>
+    <string name="errorTxt">Large Text</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="title_activity_widget_data_send">WidgetDataSend</string>
+</resources>
