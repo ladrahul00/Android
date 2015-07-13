@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">GeoFencing</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_check_in_out">CheckInOut</string>
+    <string name="InOutButton">New Button</string>
+    <string name="errorTxt">Large Text</string>
+</resources>
