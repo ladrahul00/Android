@@ -57,16 +57,12 @@ public class CheckInOut extends ActionBarActivity {
 
         employeeid = pref.getString("EmployeeIDKey", "BLANK");
         editor.commit();
-
         //Welcome EmployeeID set Text
         TextView empid = (TextView) findViewById(R.id.employeeId);
         empid.setText(employeeid);
 
         TextView show_status = (TextView) findViewById(R.id.show_status);
         Button button = (Button) findViewById(R.id.button);
-        GradientDrawable gd = new GradientDrawable();
-        gd.setStroke(1,Color.GREEN);
-        Drawable myButton = getApplicationContext().getDrawable(R.id.button);
 
         if (a == 0) {//If Employee is Onside
             show_status.setText("You are inside.");
