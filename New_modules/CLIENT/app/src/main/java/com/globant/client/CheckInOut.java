@@ -68,6 +68,7 @@ public class CheckInOut extends ActionBarActivity {
             show_status.setText("You are inside.");
             show_status.setTextColor(Color.WHITE);
             button.setText("out");
+
             button.setBackgroundResource(R.drawable.out);
         } else//If Employee is Outside
         {
