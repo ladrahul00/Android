@@ -1,6 +1,7 @@
 package com.globant.client;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -68,14 +69,13 @@ public class CheckInOut extends ActionBarActivity {
             show_status.setText("You are inside.");
             show_status.setTextColor(Color.WHITE);
             button.setText("out");
-
-            button.setBackgroundResource(R.drawable.out);
+           // button.setBackgroundResource(R.drawable.out);
         } else//If Employee is Outside
         {
             show_status.setText("You are outside.");
             show_status.setTextColor(Color.WHITE);
             button.setText("in");
-            button.setBackgroundResource(R.drawable.in);
+            //button.setBackgroundResource(R.drawable.in);
         }
     }
 
@@ -262,7 +262,7 @@ public class CheckInOut extends ActionBarActivity {
                 editor.commit();
                 show_status.setText("You got out");
                 show_status.setTextColor(Color.WHITE);
-                button.setBackgroundResource(R.drawable.out);
+               // button.setBackgroundResource(R.drawable.out);
                 button.setText("IN");
             }
             else
@@ -271,7 +271,7 @@ public class CheckInOut extends ActionBarActivity {
                 editor.commit();
                 show_status.setText("You got in");
                 show_status.setTextColor(Color.WHITE);
-                button.setBackgroundResource(R.drawable.in);
+               // button.setBackgroundResource(R.drawable.in);
                 button.setText("OUT");
             }
         }
