@@ -25,12 +25,12 @@
         android:background="@drawable/globantlogo1"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="false" />
 
     <com.globant.client.ProgressWheel
         android:id="@+id/pw_spinner1"
         android:layout_width="200dp"
-        android:background="@drawable/butshadow"
+        android:background="@drawable/circular_progress_bar"
         android:layout_height="200dp"
         android:layout_centerInParent="true" />
 
