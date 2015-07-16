@@ -44,9 +44,7 @@ public class MainActivity extends Activity {
             String data = msg.obj.toString();
             text = (TextView) findViewById(R.id.textView);
             text.setText(data);
-            text.setTextColor(Color.WHITE);
-            Button b = (Button) findViewById(R.id.button);
-            b.setBackgroundColor(Color.DKGRAY);
+            text.setTextColor(Color.DKGRAY);
         }
     };
     private static final int REQUEST_ENABLE_BT = 1;

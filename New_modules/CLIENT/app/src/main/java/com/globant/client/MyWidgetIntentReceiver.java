@@ -19,7 +19,7 @@ public class MyWidgetIntentReceiver extends BroadcastReceiver {
     }
 
     private void updateWidgetName(Context context) {
-        Toast.makeText(context, "u clicked",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "U clicked",Toast.LENGTH_SHORT).show();
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
         Intent configIntent = new Intent(context.getApplicationContext(), WidgetService.class);
