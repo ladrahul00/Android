@@ -40,18 +40,18 @@ public class CheckInOut extends ActionBarActivity {
     private BluetoothAdapter myBluetoothAdapter;
     private Set<BluetoothDevice> pairedDevices;
     private BluetoothDevice mdevice;
-    Button checkInOut;
+    //Button checkInOut;
     String employeeid;
+    ProgressWheel pw;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in_out);
-        checkInOut = (Button) findViewById(R.id.button);
+        //checkInOut = (Button) findViewById(R.id.button);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
         Editor editor = pref.edit();
-
         //Get previous status of employee weather he is IN or OUT
         int a = pref.getInt("key_name", 0);
         editor.commit();
@@ -63,54 +63,41 @@ public class CheckInOut extends ActionBarActivity {
         empid.setText(employeeid);
 
         TextView show_status = (TextView) findViewById(R.id.show_status);
-        //Button button = (Button) findViewById(R.id.button);
-        final ProgressWheel pw = (ProgressWheel)findViewById(R.id.pw_spinner1);
+        //button button = (button) findViewById(R.id.button);
+        pw = (ProgressWheel)findViewById(R.id.pw_spinner1);
+        pw.stopSpinning();
         pw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pw.spin(false);
-                try {
+                pw.spin(true);
                     sendMessage();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         });
         if (a == 0) {//If Employee is Onside
             show_status.setText("You are inside.");
             show_status.setTextColor(Color.WHITE);
-            button.setText("out");
+            pw.setText("OUT");
+            pw.setTextSize(30);
+           // button.setText("out");
            // button.setBackgroundResource(R.drawable.out);
         } else//If Employee is Outside
         {
             show_status.setText("You are outside.");
             show_status.setTextColor(Color.WHITE);
-            button.setText("in");
+            pw.setText("IN");
+            pw.setTextSize(30);
+            //button.setText("in");
             //button.setBackgroundResource(R.drawable.in);
         }
     }
 
-    public void sendMessage() throws InterruptedException {
+    public void sendMessage(){
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(myBluetoothAdapter == null) {
             Toast.makeText(getApplicationContext(), "Your device does not support Bluetooth",
                     Toast.LENGTH_LONG).show();
         }
         else {
-            if (!myBluetoothAdapter.isEnabled())
-                myBluetoothAdapter.enable();
-
-            while(!myBluetoothAdapter.isEnabled());//Waiting for bluetooth to turn on
-
-            String macAdd="90:68:C3:48:EA:B1";  //Setting MAC Address of server
-
-            try {
-                mdevice = search(macAdd);   //Searching for paired server device
-            }catch(NullPointerException ne){
-                Toast.makeText(getApplicationContext(), "Not Connected to server",
-                        Toast.LENGTH_LONG).show();
-            }
-
             SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
             SharedPreferences.Editor editor = pref.edit();
             int a = pref.getInt("key_name", 0);
@@ -119,28 +106,10 @@ public class CheckInOut extends ActionBarActivity {
             //Message to be sent to server
             String msg = employeeid+"#"+String.valueOf(a);
 
-            ConnectThread mConnect = new ConnectThread(mdevice,msg);       //Bluetooth connection Thread
+            ConnectThread mConnect = new ConnectThread(msg);       //Bluetooth connection Thread
             mConnect.start();   //Starting server
 
-            try {
-                mConnect.join();
-            }
-            catch (InterruptedException e1) { }
         }
-    }
-
-    //Search function to search Paired Server Device
-    public BluetoothDevice search(String macAdd){
-        pairedDevices = myBluetoothAdapter.getBondedDevices();
-        BluetoothDevice dev=null;
-        //find a device with server devices's mac address
-        for(BluetoothDevice device : pairedDevices) {
-            if (device.getAddress().toString().equals(macAdd)) {
-                dev = device;
-                return dev;
-            }
-        }
-        throw null;
     }
 
     @Override
@@ -153,24 +122,52 @@ public class CheckInOut extends ActionBarActivity {
 
     //Thread to establish connection
     public class ConnectThread extends Thread{
-        private final BluetoothSocket mmSocket;
-        private final BluetoothDevice mmDevice;
+        private BluetoothSocket mmSocket;
+        private BluetoothDevice mmDevice;
         private final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
         private final String employeeID;
-        public ConnectThread(BluetoothDevice device,String empData){
-            BluetoothSocket temp=null;
-            mmDevice = device;
+        public ConnectThread(String empData){
             employeeID=empData;
+        }
+
+        //Search function to search Paired Server Device
+        public BluetoothDevice search(String macAdd){
+            pairedDevices = myBluetoothAdapter.getBondedDevices();
+            BluetoothDevice dev=null;
+            //find a device with server devices's mac address
+            for(BluetoothDevice device : pairedDevices) {
+                if (device.getAddress().toString().equals(macAdd)) {
+                    dev = device;
+                    return dev;
+                }
+            }
+            throw null;
+        }
+
+        public void run(){
+            if (!myBluetoothAdapter.isEnabled())
+                myBluetoothAdapter.enable();
+
+            while(!myBluetoothAdapter.isEnabled());//Waiting for bluetooth to turn on
+
+            String macAdd="90:68:C3:48:EA:B1";  //Setting MAC Address of server
+
+            try {
+                mdevice = search(macAdd);   //Searching for paired server device
+            }catch(NullPointerException ne){
+
+            }
+
+            BluetoothSocket temp=null;
+            mmDevice = mdevice;
 
             //Creating Socket for connection
             try{
-                temp = device.createRfcommSocketToServiceRecord(MY_UUID);
+                temp = mdevice.createRfcommSocketToServiceRecord(MY_UUID);
                 Thread.sleep(10);
             }catch(IOException e){}
             catch(Exception e){}
             mmSocket = temp;
-        }
-        public void run(){
             BluetoothAdapter myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             myBluetoothAdapter.cancelDiscovery();
             try{
@@ -181,6 +178,8 @@ public class CheckInOut extends ActionBarActivity {
                 }catch(IOException ee){}
                 BluetoothAdapter bdapt = BluetoothAdapter.getDefaultAdapter();
                 bdapt.disable();
+                Message msg = myHandler.obtainMessage(2, "Device Not connected");
+                msg.sendToTarget();
                 return;
             }
             ConnectedThread c = new ConnectedThread(mmSocket,employeeID);
@@ -259,31 +258,43 @@ public class CheckInOut extends ActionBarActivity {
         @Override
         public void handleMessage(Message msg) {
             String data = msg.obj.toString();
-
-            Button button = (Button)findViewById(R.id.button);
-            TextView show_status = (TextView)findViewById(R.id.show_status);
-            show_status.setTextColor(Color.BLUE);
-            show_status.setVisibility(View.VISIBLE);
-            SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref" , 0); //0 for private mode
-            SharedPreferences.Editor editor = pref.edit();
-            int a=pref.getInt("key_name",0);
-            editor.commit();
-            if(a==0) {
-                editor.putInt("key_name", 1);
-                editor.commit();
-                show_status.setText("You got out");
-                show_status.setTextColor(Color.WHITE);
-               // button.setBackgroundResource(R.drawable.out);
-                button.setText("IN");
-            }
-            else
-            {
-                editor.putInt("key_name", 0);
-                editor.commit();
-                show_status.setText("You got in");
-                show_status.setTextColor(Color.WHITE);
-               // button.setBackgroundResource(R.drawable.in);
-                button.setText("OUT");
+            switch (msg.what) {
+                case 1:
+                    // button button = (button)findViewById(R.id.button);
+                    TextView show_status = (TextView) findViewById(R.id.show_status);
+                    show_status.setTextColor(Color.BLUE);
+                    show_status.setVisibility(View.VISIBLE);
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
+                    SharedPreferences.Editor editor = pref.edit();
+                    int a = pref.getInt("key_name", 0);
+                    editor.commit();
+                    pw.stopSpinning();
+                    if (a == 0) {
+                        editor.putInt("key_name", 1);
+                        editor.commit();
+                        show_status.setText("You got out");
+                        show_status.setTextColor(Color.WHITE);
+                        Toast.makeText(getApplicationContext(), "Check Out Acknowledged", Toast.LENGTH_SHORT).show();
+                        pw.setText("IN");
+                        pw.setTextSize(30);
+                        // button.setBackgroundResource(R.drawable.out);
+                        //button.setText("IN");
+                    } else {
+                        editor.putInt("key_name", 0);
+                        editor.commit();
+                        show_status.setText("You got in");
+                        show_status.setTextColor(Color.WHITE);
+                        // button.setBackgroundResource(R.drawable.in);
+                        //button.setText("OUT");
+                        pw.setText("OUT");
+                        pw.setTextSize(30);
+                        Toast.makeText(getApplicationContext(), "Check In Acknowledged", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case 2:
+                    pw.stopSpinning();
+                    Toast.makeText(getApplicationContext(), "Server device not found", Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
     };
