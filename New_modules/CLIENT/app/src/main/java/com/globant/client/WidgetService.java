@@ -5,7 +5,13 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.IBinder;
+import android.os.Message;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,42 +25,22 @@ public class WidgetService extends Service {
     private BluetoothAdapter myBluetoothAdapter;
     private Set<BluetoothDevice> pairedDevices;
     private BluetoothDevice mdevice;
-
+    final private int SEND_ACK = 1;
+    final private int SEND_STATE = 2;
     public void onCreate(){
-        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(!myBluetoothAdapter.isEnabled()){
-            myBluetoothAdapter.enable();
-        }
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref",0);
-        SharedPreferences.Editor editor = pref.edit();
-        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        String macAdd="90:68:C3:48:EA:B1";
-        mdevice = search(macAdd);
-        int a=pref.getInt("key_name",0);
-        editor.commit();
-        String empid = pref.getString("EmployeeIDKey","blank");
-        editor.commit();
-        if(empid.equals("blank")){
-            Intent intent = new Intent(WidgetService.this,MainActivityClient.class);
-            this.startActivity(intent);
-        }
-        else {
-            String msg = empid + "#" + String.valueOf(a);
-            ConnectWidgetThread connectWidgetThread = new ConnectWidgetThread(mdevice, msg);
-            connectWidgetThread.start();
-        }
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        //Toast.makeText(getApplicationContext(), "On Start command", Toast.LENGTH_SHORT).show();
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(!myBluetoothAdapter.isEnabled()){
+        if(!myBluetoothAdapter.isEnabled())
             myBluetoothAdapter.enable();
-        }
+        while(!myBluetoothAdapter.isEnabled());
         SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref",0);
         SharedPreferences.Editor editor = pref.edit();
-        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        //myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         String macAdd="90:68:C3:48:EA:B1";
         mdevice = search(macAdd);
         int a=pref.getInt("key_name",0);
@@ -62,6 +48,7 @@ public class WidgetService extends Service {
         String empid = pref.getString("EmployeeIDKey","blank");
         editor.commit();
         if(empid.equals("blank")){
+            Toast.makeText(getApplicationContext(), "Sign-In to proceed", Toast.LENGTH_SHORT).show();
             Intent intentMain = new Intent(WidgetService.this,MainActivityClient.class);
             this.startActivity(intentMain);
         }
@@ -125,6 +112,8 @@ public class WidgetService extends Service {
             }
             ConnectedWidgetThread connectedWidgetThread = new ConnectedWidgetThread(mmSocket,employeeID);
             connectedWidgetThread.start();
+            Message msg = myHandler.obtainMessage(2, "Device Not connected");
+            msg.sendToTarget();
             return;
         }
         public void cancel(){
@@ -173,6 +162,9 @@ public class WidgetService extends Service {
                 byte [] xyz = new byte[1024];
                 bytes = mmInStream.read(xyz);
                 String m = new String(xyz);
+                Message msg = myHandler.obtainMessage(1, m);
+                msg.what=SEND_ACK;
+                msg.sendToTarget();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -186,4 +178,31 @@ public class WidgetService extends Service {
             }catch(IOException e){}
         }
     }
+    public android.os.Handler myHandler = new android.os.Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+        String data = msg.obj.toString();
+        switch(msg.what) {
+            case SEND_ACK:
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
+                SharedPreferences.Editor editor = pref.edit();
+                int a = pref.getInt("key_name", 0);
+                editor.commit();
+                if (a == 0) {
+                    editor.putInt("key_name", 1);
+                    editor.commit();
+                    Toast.makeText(getApplicationContext(), "Check Out Acknowledged", Toast.LENGTH_SHORT).show();
+                } else {
+                    editor.putInt("key_name", 0);
+                    editor.commit();
+                    Toast.makeText(getApplicationContext(), "Check In Acknowledged", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case SEND_STATE:
+                Toast.makeText(getApplicationContext(), "Server device not found", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        }
+    };
+
 }
