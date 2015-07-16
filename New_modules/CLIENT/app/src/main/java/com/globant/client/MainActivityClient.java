@@ -24,11 +24,14 @@ public class MainActivityClient extends ActionBarActivity {
         setContentView(R.layout.activity_main_activity_client);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "ecNYEdsTREI9Mwzx5gWOoh2HB9V78KvVWe8W8iIA", "YHuKHkJdjm4gSdl6lrZavY9Sdx06Da1DPNNXy40p");
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref" , 0); //0 for private mode
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
         SharedPreferences.Editor editor = pref.edit();
-        spinner = (ProgressBar)findViewById(R.id.progressBar);
-        spinner.setVisibility(View.VISIBLE);
-
+        final ProgressWheel pw = (ProgressWheel)findViewById(R.id.pw_spinner1);
+        pw.spin(false);
+        pw.setText("Authenticating");
+        pw.setTextSize(30);
+        final ProgressWheel pwin = (ProgressWheel)findViewById(R.id.pw_spinner2);
+        pwin.spin(true);
         String empID = pref.getString("EmployeeIDKey", "blank");//receive from preference
         editor.commit();
 
@@ -48,7 +51,7 @@ public class MainActivityClient extends ActionBarActivity {
                         String empidString=parseObject.get("EmployeeID").toString();
                         SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
                         SharedPreferences.Editor editor = pref.edit();
-
+                        pw.stopSpinning();
                         editor.putString("EmployeeIDKey", empidString);//store empid into preferences
                         editor.commit();
 
@@ -59,6 +62,7 @@ public class MainActivityClient extends ActionBarActivity {
             });
         }
         else{
+            pw.stopSpinning();
             Intent intent = new Intent(MainActivityClient.this, CheckInOut.class);
             startActivity(intent);
         }

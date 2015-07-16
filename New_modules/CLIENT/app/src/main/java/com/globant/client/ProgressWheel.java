@@ -39,7 +39,7 @@ public class ProgressWheel extends View {
     private int paddingRight = 5;
 
     //Colors (with defaults)
-    private int barColor = 0xAA000000;
+    private int barColor = 0xFFCCFF00;
     private int contourColor = 0xAA000000;
     private int circleColor = 0x00000000;
     private int rimColor = 0xAADDDDDD;
@@ -66,7 +66,7 @@ public class ProgressWheel extends View {
     private int delayMillis = 0;
     int progress = 0;
     boolean isSpinning = false;
-
+    boolean direction=false;//false->++
     //Other
     private String text = "";
     private String[] splitText = {};
@@ -277,11 +277,11 @@ public class ProgressWheel extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //Draw the inner circle
-        canvas.drawArc(circleBounds, 360, 360, false, circlePaint);
+      //  canvas.drawArc(circleBounds, 360, 360, false, circlePaint);
         //Draw the rim
         canvas.drawArc(circleBounds, 360, 360, false, rimPaint);
-        canvas.drawArc(circleOuterContour, 360, 360, false, contourPaint);
-        canvas.drawArc(circleInnerContour, 360, 360, false, contourPaint);
+  //      canvas.drawArc(circleOuterContour, 360, 360, false, contourPaint);
+//        canvas.drawArc(circleInnerContour, 360, 360, false, contourPaint);
         //Draw the bar
         if (isSpinning) {
             canvas.drawArc(circleBounds, progress - 90, barLength, false,
@@ -304,9 +304,17 @@ public class ProgressWheel extends View {
     }
 
     private void scheduleRedraw() {
-        progress += spinSpeed;
-        if (progress > 360) {
-            progress = 0;
+        if(direction=false) {
+            progress += spinSpeed;
+            if (progress > 360) {
+                progress = 0;
+            }
+        }
+        else{
+            progress -= spinSpeed;
+            if (progress < 0) {
+                progress = 360;
+            }
         }
         postInvalidateDelayed(delayMillis);
     }
@@ -340,8 +348,9 @@ public class ProgressWheel extends View {
     /**
      * Puts the view on spin mode
      */
-    public void spin() {
+    public void spin(boolean dir) {
         isSpinning = true;
+        direction=dir;
         postInvalidate();
     }
 
