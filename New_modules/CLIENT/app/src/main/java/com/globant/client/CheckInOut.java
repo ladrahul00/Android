@@ -63,8 +63,19 @@ public class CheckInOut extends ActionBarActivity {
         empid.setText(employeeid);
 
         TextView show_status = (TextView) findViewById(R.id.show_status);
-        Button button = (Button) findViewById(R.id.button);
-
+        //Button button = (Button) findViewById(R.id.button);
+        final ProgressWheel pw = (ProgressWheel)findViewById(R.id.pw_spinner1);
+        pw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pw.spin(false);
+                try {
+                    sendMessage();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         if (a == 0) {//If Employee is Onside
             show_status.setText("You are inside.");
             show_status.setTextColor(Color.WHITE);
@@ -79,7 +90,7 @@ public class CheckInOut extends ActionBarActivity {
         }
     }
 
-    public void sendMessage(View v) throws InterruptedException {
+    public void sendMessage() throws InterruptedException {
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(myBluetoothAdapter == null) {
             Toast.makeText(getApplicationContext(), "Your device does not support Bluetooth",
