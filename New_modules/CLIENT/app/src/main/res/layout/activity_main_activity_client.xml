@@ -8,8 +8,8 @@
     android:background="#FFFFFF">
 
     <ImageView
-        android:layout_width="250dp"
-        android:layout_height="54.5dp"
+        android:layout_width="125dp"
+        android:layout_height="27.25dp"
         android:id="@+id/imageView"
         android:background="@drawable/globant"
         android:layout_alignParentTop="true"
