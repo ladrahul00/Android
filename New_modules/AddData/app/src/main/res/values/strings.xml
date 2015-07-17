@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">AddData</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_employee_log">EmployeeLog</string>
-    <string name="title_activity_addemployeee">addemployeee</string>
-    <string name="title_activity_removeemployee">removeemployee</string>
-</resources>
