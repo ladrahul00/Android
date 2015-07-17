@@ -26,7 +26,7 @@ public class ProgressWheel extends View {
     private int layout_width = 0;
     private int fullRadius = 100;
     private int circleRadius = 80;
-    private int barLength = 60;
+    private int barLength = 0;
     private int barWidth = 20;
     private int rimWidth = 20;
     private int textSize = 20;
@@ -284,7 +284,7 @@ public class ProgressWheel extends View {
 //        canvas.drawArc(circleInnerContour, 360, 360, false, contourPaint);
         //Draw the bar
         if (isSpinning) {
-            canvas.drawArc(circleBounds, progress - 90, barLength, false,
+            canvas.drawArc(circleBounds, -90, barLength, false,
                     barPaint);
         } else {
             canvas.drawArc(circleBounds, -90, progress, false, barPaint);
@@ -299,22 +299,25 @@ public class ProgressWheel extends View {
                     this.getHeight() / 2 + verticalTextOffset, textPaint);
         }
         if (isSpinning) {
-            scheduleRedraw();
+            scheduleRedraw(false);
         }
     }
 
-    private void scheduleRedraw() {
-        if(direction=false) {
-            progress += spinSpeed;
-            if (progress > 360) {
-                progress = 0;
-            }
+    boolean progflag=false;
+    boolean barlenflag=false;
+
+
+    private void scheduleRedraw(boolean dir) {
+        if(dir==true) {
+            barLength += spinSpeed;
+            if(barLength>360)
+                barLength=0;
+
         }
         else{
-            progress -= spinSpeed;
-            if (progress < 0) {
-                progress = 360;
-            }
+            barLength -= spinSpeed;
+            if(barLength<0)
+                barLength=360;
         }
         postInvalidateDelayed(delayMillis);
     }
