@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <item name="android:colorPrimary">#dae4ff</item>
+        <item name="android:colorPrimary">#eeffcc</item>
 
-        <item name="android:colorPrimaryDark">#2ff0c4</item>
+        <item name="android:colorPrimaryDark">#ccff99</item>
 
-        <item name="android:colorAccent">#71adad</item>
+        <item name="android:colorAccent">#ccff33</item>
 
         <item name="android:windowTranslucentStatus">true</item>
 
-        <item name="android:colorControlHighlight">#006699</item>
+        <item name="android:colorControlHighlight">#ccff99</item>
 
     </style>
 

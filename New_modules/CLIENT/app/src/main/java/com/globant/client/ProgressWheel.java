@@ -26,7 +26,7 @@ public class ProgressWheel extends View {
     private int layout_width = 0;
     private int fullRadius = 100;
     private int circleRadius = 80;
-    private int barLength = 0;
+    public int barLength = 60;
     private int barWidth = 20;
     private int rimWidth = 20;
     private int textSize = 20;
@@ -39,7 +39,7 @@ public class ProgressWheel extends View {
     private int paddingRight = 5;
 
     //Colors (with defaults)
-    private int barColor = 0xFF99CC00;
+    private int barColor = 0xff00cc00;
     private int contourColor = 0xAA000000;
     private int circleColor = 0x00000000;
     private int rimColor = 0xAADDDDDD;
@@ -284,7 +284,7 @@ public class ProgressWheel extends View {
 //        canvas.drawArc(circleInnerContour, 360, 360, false, contourPaint);
         //Draw the bar
         if (isSpinning) {
-            canvas.drawArc(circleBounds, -90, barLength, false,
+            canvas.drawArc(circleBounds, progress-90, barLength, false,
                     barPaint);
         } else {
             canvas.drawArc(circleBounds, -90, progress, false, barPaint);
@@ -299,23 +299,34 @@ public class ProgressWheel extends View {
                     this.getHeight() / 2 + verticalTextOffset, textPaint);
         }
         if (isSpinning) {
-            scheduleRedraw(false);
+            scheduleRedraw(direction);
+            //rotate();
         }
     }
 
     boolean progflag=false;
     boolean barlenflag=false;
 
+    void rotate(){
+        progress += spinSpeed;
+        if(progress>360)
+            progress=0;
+        barLength+=progress;
+        if(barLength<0)
+            barLength=360;
+
+        postInvalidateDelayed(delayMillis);
+    }
 
     private void scheduleRedraw(boolean dir) {
         if(dir==true) {
-            barLength += spinSpeed;
+            progress += spinSpeed;
             if(barLength>360)
                 barLength=0;
 
         }
         else{
-            barLength -= spinSpeed;
+            progress -= spinSpeed;
             if(barLength<0)
                 barLength=360;
         }

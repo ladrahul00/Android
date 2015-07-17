@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -49,7 +50,6 @@ public class CheckInOut extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in_out);
-        //checkInOut = (Button) findViewById(R.id.button);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
         Editor editor = pref.edit();
         //Get previous status of employee weather he is IN or OUT
@@ -62,9 +62,8 @@ public class CheckInOut extends ActionBarActivity {
         TextView empid = (TextView) findViewById(R.id.employeeId);
         empid.setText(employeeid);
 
-        TextView show_status = (TextView) findViewById(R.id.show_status);
-        //button button = (button) findViewById(R.id.button);
         pw = (ProgressWheel)findViewById(R.id.pw_spinner1);
+        pw.progress=0;
         pw.stopSpinning();
         pw.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,22 +73,19 @@ public class CheckInOut extends ActionBarActivity {
             }
         });
         if (a == 0) {//If Employee is Onside
-            show_status.setText("You are inside.");
-            show_status.setTextColor(Color.WHITE);
-            pw.setText("OUT");
+            pw.setText("Check Out");
             pw.setTextSize(30);
-           // button.setText("out");
-           // button.setBackgroundResource(R.drawable.out);
         } else//If Employee is Outside
         {
-            show_status.setText("You are outside.");
-            show_status.setTextColor(Color.WHITE);
-            pw.setText("IN");
+            pw.setText("Check In");
             pw.setTextSize(30);
-            //button.setText("in");
-            //button.setBackgroundResource(R.drawable.in);
         }
+
+
+
     }
+
+
 
     public void sendMessage(){
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -115,7 +111,6 @@ public class CheckInOut extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_check_in_out, menu);
         return true;
     }
 
@@ -261,9 +256,6 @@ public class CheckInOut extends ActionBarActivity {
             switch (msg.what) {
                 case 1:
                     // button button = (button)findViewById(R.id.button);
-                    TextView show_status = (TextView) findViewById(R.id.show_status);
-                    show_status.setTextColor(Color.BLUE);
-                    show_status.setVisibility(View.VISIBLE);
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
                     SharedPreferences.Editor editor = pref.edit();
                     int a = pref.getInt("key_name", 0);
@@ -272,21 +264,15 @@ public class CheckInOut extends ActionBarActivity {
                     if (a == 0) {
                         editor.putInt("key_name", 1);
                         editor.commit();
-                        show_status.setText("You got out");
-                        show_status.setTextColor(Color.WHITE);
                         Toast.makeText(getApplicationContext(), "Check Out Acknowledged", Toast.LENGTH_SHORT).show();
-                        pw.setText("IN");
+                        pw.setText("Check In");
                         pw.setTextSize(30);
                         // button.setBackgroundResource(R.drawable.out);
                         //button.setText("IN");
                     } else {
                         editor.putInt("key_name", 0);
                         editor.commit();
-                        show_status.setText("You got in");
-                        show_status.setTextColor(Color.WHITE);
-                        // button.setBackgroundResource(R.drawable.in);
-                        //button.setText("OUT");
-                        pw.setText("OUT");
+                        pw.setText("Check Out");
                         pw.setTextSize(30);
                         Toast.makeText(getApplicationContext(), "Check In Acknowledged", Toast.LENGTH_SHORT).show();
                     }
