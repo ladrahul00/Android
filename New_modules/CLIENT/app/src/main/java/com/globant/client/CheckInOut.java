@@ -58,9 +58,11 @@ public class CheckInOut extends ActionBarActivity {
 
         employeeid = pref.getString("EmployeeIDKey", "BLANK");
         editor.commit();
+        String employeename = pref.getString("EmployeeName", "BLANK");
+        editor.commit();
         //Welcome EmployeeID set Text
-        TextView empid = (TextView) findViewById(R.id.employeeId);
-        empid.setText(employeeid);
+        TextView empname = (TextView) findViewById(R.id.employeename);
+        empname.setText(employeename);
 
         pw = (ProgressWheel)findViewById(R.id.pw_spinner1);
         pw.progress=0;
@@ -106,6 +108,18 @@ public class CheckInOut extends ActionBarActivity {
             mConnect.start();   //Starting server
 
         }
+    }
+
+    public void logOut(View view){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0);
+        pref.edit().clear().commit();
+        Intent intent = new Intent(this,MainActivityClient.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
     @Override

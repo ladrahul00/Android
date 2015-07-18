@@ -30,6 +30,8 @@ public class addemployeee extends ActionBarActivity {
         pobj.put("MacAddress",macadd.getText().toString());
         EditText cardno = (EditText)findViewById(R.id.cardno);
         pobj.put("CardNo", cardno.getText().toString());
+        EditText empname = (EditText)findViewById(R.id.empname);
+        pobj.put("EmployeeName",empname.getText().toString());
 
         pobj.saveInBackground();
         Intent intent = new Intent(this,MainActivity.class);

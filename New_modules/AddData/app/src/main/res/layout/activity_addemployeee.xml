@@ -33,9 +33,9 @@
         android:id="@+id/button"
         android:onClick="addData"
         android:background="#8BC34A"
-        android:layout_below="@+id/cardno"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="67dp" />
+        android:layout_marginBottom="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -74,5 +74,24 @@
         android:layout_below="@+id/textView4"
         android:layout_alignLeft="@+id/textView4"
         android:layout_alignStart="@+id/textView4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Employee Name :-"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/cardno"
+        android:layout_alignLeft="@+id/cardno"
+        android:layout_alignStart="@+id/cardno"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:layout_width="@android:dimen/thumbnail_height"
+        android:layout_height="wrap_content"
+        android:id="@+id/empname"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2" />
 
 </RelativeLayout>
