@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="72dp" android:layout_height="72dp">
+
+    <com.globant.client.ProgressWheel
+        android:id="@+id/imageButton"
+        android:layout_width="72dp"
+        android:background="@drawable/butshadow"
+        android:layout_height="72dp"
+        android:layout_below="@+id/employeename"
+        android:layout_centerHorizontal="true" />
 
 </LinearLayout>

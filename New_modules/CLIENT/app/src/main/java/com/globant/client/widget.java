@@ -1,9 +1,11 @@
 package com.globant.client;
 
+import android.app.Fragment;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -38,6 +40,7 @@ public class widget extends AppWidgetProvider {
     public static PendingIntent buildButtonPendingIntent(Context context) {
         Intent intent = new Intent();
         intent.setAction("android.bluetooth.rec");
+        //Fragment fg = new Fragment();
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
