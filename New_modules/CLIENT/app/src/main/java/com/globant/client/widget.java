@@ -15,7 +15,14 @@ public class widget extends AppWidgetProvider {
         super.onUpdate(context,appWidgetManager,appWidgetIds);
         for (int i = 0; i < appWidgetIds.length; i++) {
             int appwidgtid = appWidgetIds[i];
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+            int layoutID;
+            if(true){
+                layoutID=R.layout.widget;
+            }
+            else{
+                layoutID=R.layout.widgetextendlayout;
+            }
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), layoutID);
             remoteViews.setOnClickPendingIntent(R.id.imageButton, buildButtonPendingIntent(context));
             pushWidgetUpdate(context, remoteViews);
         }

@@ -40,7 +40,7 @@ public class ProgressWheel extends View {
 
     //Colors (with defaults)
     private int barColor = 0xff00cc00;
-    private int contourColor = 0xAA000000;
+    private int contourColor = 0xAADDDDDD;
     private int circleColor = 0x00000000;
     private int rimColor = 0xAADDDDDD;
     private int textColor = 0xFF000000;
@@ -57,7 +57,7 @@ public class ProgressWheel extends View {
     private RectF rectBounds = new RectF();
     private RectF circleBounds = new RectF();
     private RectF circleOuterContour = new RectF();
-    private RectF circleInnerContour = new RectF();
+    private RectF circleOutOutContour = new RectF();
 
     //Animation
     //The amount of pixels to move the bar by on each draw
@@ -212,8 +212,8 @@ public class ProgressWheel extends View {
                 paddingTop + barWidth,
                 width - paddingRight - barWidth,
                 height - paddingBottom - barWidth);
-        circleInnerContour = new RectF(circleBounds.left + (rimWidth / 2.0f) + (contourSize / 2.0f), circleBounds.top + (rimWidth / 2.0f) + (contourSize / 2.0f), circleBounds.right - (rimWidth / 2.0f) - (contourSize / 2.0f), circleBounds.bottom - (rimWidth / 2.0f) - (contourSize / 2.0f));
-        circleOuterContour = new RectF(circleBounds.left - (rimWidth / 2.0f) - (contourSize / 2.0f), circleBounds.top - (rimWidth / 2.0f) - (contourSize / 2.0f), circleBounds.right + (rimWidth / 2.0f) + (contourSize / 2.0f), circleBounds.bottom + (rimWidth / 2.0f) + (contourSize / 2.0f));
+        circleOutOutContour = new RectF(circleBounds.left + (rimWidth / 2.0f) + (contourSize / 2.0f), circleBounds.top + (rimWidth / 2.0f) + (contourSize / 2.0f), circleBounds.right - (rimWidth / 2.0f) - (contourSize / 2.0f), circleBounds.bottom - (rimWidth / 2.0f) - (contourSize / 2.0f));
+        circleOuterContour = new RectF(circleBounds.left + (rimWidth / 2.0f) + (contourSize / 2.0f), circleBounds.top + (rimWidth / 2.0f) + (contourSize / 2.0f), circleBounds.right - (rimWidth / 2.0f) - (contourSize / 2.0f), circleBounds.bottom - (rimWidth / 2.0f) - (contourSize / 2.0f));
 
         fullRadius = (width - paddingRight - barWidth) / 2;
         circleRadius = (fullRadius - barWidth) + 1;
@@ -277,11 +277,11 @@ public class ProgressWheel extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //Draw the inner circle
-      //  canvas.drawArc(circleBounds, 360, 360, false, circlePaint);
+       // canvas.drawArc(circleBounds, 360, 360, false, contourPaint);
         //Draw the rim
         canvas.drawArc(circleBounds, 360, 360, false, rimPaint);
-  //      canvas.drawArc(circleOuterContour, 360, 360, false, contourPaint);
-//        canvas.drawArc(circleInnerContour, 360, 360, false, contourPaint);
+     //   canvas.drawArc(circleOuterContour, 360, 360, false, contourPaint);
+      //  canvas.drawArc(circleOutOutContour, 360, 360, false, contourPaint);
         //Draw the bar
         if (isSpinning) {
             canvas.drawArc(circleBounds, progress-90, barLength, false,

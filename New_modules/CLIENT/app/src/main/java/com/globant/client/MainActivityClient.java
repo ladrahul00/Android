@@ -61,7 +61,7 @@ public class MainActivityClient extends ActionBarActivity {
                         editor.commit();
                         editor.putString("EmployeeName", empName);//store empid into preferences
                         editor.commit();
-
+                        finish();
                         Intent intent = new Intent(MainActivityClient.this, CheckInOut.class);
                         startActivity(intent);
 
@@ -72,6 +72,7 @@ public class MainActivityClient extends ActionBarActivity {
         else{
             pw.stopSpinning();
             pwin.stopSpinning();
+            finish();
             Intent intent = new Intent(MainActivityClient.this, CheckInOut.class);
             startActivity(intent);
         }

@@ -75,11 +75,11 @@ public class CheckInOut extends ActionBarActivity {
             }
         });
         if (a == 0) {//If Employee is Onside
-            pw.setText("Check Out");
+            pw.setText("Exit");
             pw.setTextSize(30);
         } else//If Employee is Outside
         {
-            pw.setText("Check In");
+            pw.setText("Enter");
             pw.setTextSize(30);
         }
 
@@ -115,11 +115,6 @@ public class CheckInOut extends ActionBarActivity {
         pref.edit().clear().commit();
         Intent intent = new Intent(this,MainActivityClient.class);
         startActivity(intent);
-    }
-
-    @Override
-    public void onBackPressed() {
-
     }
 
     @Override
@@ -279,14 +274,14 @@ public class CheckInOut extends ActionBarActivity {
                         editor.putInt("key_name", 1);
                         editor.commit();
                         Toast.makeText(getApplicationContext(), "Check Out Acknowledged", Toast.LENGTH_SHORT).show();
-                        pw.setText("Check In");
+                        pw.setText("Enter");
                         pw.setTextSize(30);
                         // button.setBackgroundResource(R.drawable.out);
                         //button.setText("IN");
                     } else {
                         editor.putInt("key_name", 0);
                         editor.commit();
-                        pw.setText("Check Out");
+                        pw.setText("Exit");
                         pw.setTextSize(30);
                         Toast.makeText(getApplicationContext(), "Check In Acknowledged", Toast.LENGTH_SHORT).show();
                     }
