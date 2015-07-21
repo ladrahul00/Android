@@ -35,6 +35,15 @@
             android:name=".EmployeeLog"
             android:label="@string/title_activity_employee_log" >
         </activity>
+        <activity
+            android:name=".SearchableActivity"
+            android:label="@string/title_activity_searchable" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
     </application>
 
 </manifest>
