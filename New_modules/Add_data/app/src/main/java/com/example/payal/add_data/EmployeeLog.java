@@ -1,5 +1,7 @@
 package com.example.payal.add_data;
 
+import android.app.SearchManager;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -39,44 +41,24 @@ public class EmployeeLog extends ActionBarActivity {
         setContentView(R.layout.activity_employee_log);
         //Parse.enableLocalDatastore(this);
         //Parse.initialize(this, "ecNYEdsTREI9Mwzx5gWOoh2HB9V78KvVWe8W8iIA", "YHuKHkJdjm4gSdl6lrZavY9Sdx06Da1DPNNXy40p");
+        //
 
-        seekBar = (SeekBar)findViewById(R.id.seekBar);
-        seekBar.setMax(100);
+        // Get the intent, verify the action and get the query
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doMySearch(query);
+          }
+        }
 
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progvalue, boolean fromUser) {
-                progress = progvalue;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // progress=seekBar.getProgress();
-                Toast.makeText(EmployeeLog.this, "seek bar progress:" + progress,
-                        Toast.LENGTH_SHORT).show();
-
-
-            }
-        });
+    public void doMySearch(String query)
+    {
 
     }
 
     public void showLogs(View v) throws ParseException {
 
         lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
-
-        progress = seekBar.getProgress();
-        progress=Math.abs(progress - 100);
-
-        int k=progress*24*60*60*1000;
-
-
 
         String dType = "dd / MM / yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dType);
