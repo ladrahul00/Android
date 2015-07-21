@@ -31,6 +31,11 @@
             android:name=".removeemployee"
             android:label="@string/title_activity_removeemployee" >
         </activity>
+
+        <service
+            android:name=".ServerServiceIntent"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

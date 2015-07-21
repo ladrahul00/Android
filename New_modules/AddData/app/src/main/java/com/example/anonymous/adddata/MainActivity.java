@@ -21,6 +21,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "ecNYEdsTREI9Mwzx5gWOoh2HB9V78KvVWe8W8iIA", "YHuKHkJdjm4gSdl6lrZavY9Sdx06Da1DPNNXy40p");
+        Intent intent = new Intent(this,ServerServiceIntent.class);
+       // startService(intent);
     }
 
     public void view_log(View v){
@@ -45,7 +47,12 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this,ServerServiceIntent.class));
 
+        super.onDestroy();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
