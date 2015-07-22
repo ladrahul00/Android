@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +31,6 @@ import java.util.List;
 
 public class EmployeeLog extends ActionBarActivity {
     private String empid;
-    SeekBar seekBar;
     ListView listView;
     private ArrayAdapter<String> lvArrayAdapter;
     int progress;
@@ -41,30 +41,39 @@ public class EmployeeLog extends ActionBarActivity {
         //Parse.enableLocalDatastore(this);
         //Parse.initialize(this, "ecNYEdsTREI9Mwzx5gWOoh2HB9V78KvVWe8W8iIA", "YHuKHkJdjm4gSdl6lrZavY9Sdx06Da1DPNNXy40p");
 
-        seekBar = (SeekBar)findViewById(R.id.seekBar);
-        seekBar.setMax(10);
+        SearchView search=(SearchView) findViewById(R.id.searchView);
+        search.setQueryHint("SearchView");
 
+ /*               //*** setOnQueryTextFocusChangeListener ***
+                search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener()
+                {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus)
+                    {
+                        Toast.makeText(getApplicationContext(), "yo yo", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), String.valueOf(hasFocus),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+*/
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progvalue, boolean fromUser) {
-                progress = progvalue;
+            public boolean onQueryTextSubmit(String arg0) {
+                //search parse for emp id = arg0
+
+
+                return true;
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public boolean onQueryTextChange(String arg0) {
 
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // progress=seekBar.getProgress();
-                Toast.makeText(EmployeeLog.this, "seek bar progress:" + progress,
-                        Toast.LENGTH_SHORT).show();
-
-
+                return false;
             }
         });
+
+
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(Calendar.DAY_OF_MONTH, currentDate);
@@ -75,14 +84,9 @@ public class EmployeeLog extends ActionBarActivity {
         textView.setText(CurrentDate);
     }
 
-    public void showLogs(View v) throws ParseException {
+   /* public void showLogs(View v) throws ParseException {
 
         lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
-
-        progress = seekBar.getProgress();
-        progress=Math.abs(progress - seekBar.getMax());
-
-        int k=progress;
 
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
@@ -114,7 +118,7 @@ public class EmployeeLog extends ActionBarActivity {
         });
         listView = (ListView)findViewById(R.id.listView);
         listView.setAdapter(lvArrayAdapter);
-    }
+    } */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
