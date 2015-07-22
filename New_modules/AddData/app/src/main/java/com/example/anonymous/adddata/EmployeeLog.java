@@ -68,14 +68,11 @@ public class EmployeeLog extends ActionBarActivity {
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(Calendar.DAY_OF_MONTH, currentDate);
-
-
         String dType = "dd / MM / yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dType);
         String CurrentDate = sdf.format(cal.getTime());
         TextView textView = (TextView)findViewById(R.id.textView3);
         textView.setText(CurrentDate);
-
     }
 
     public void showLogs(View v) throws ParseException {

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.parse.ParseObject;
 
@@ -25,17 +26,26 @@ public class addemployeee extends ActionBarActivity {
     public void addData(View v){
         ParseObject pobj = new ParseObject("EmployeeData");
         EditText empid = (EditText)findViewById(R.id.EmployeeID);
-        pobj.put("EmployeeID",empid.getText().toString());
         EditText macadd = (EditText)findViewById(R.id.macadd);
-        pobj.put("MacAddress",macadd.getText().toString());
         EditText cardno = (EditText)findViewById(R.id.cardno);
-        pobj.put("CardNo", cardno.getText().toString());
         EditText empname = (EditText)findViewById(R.id.empname);
-        pobj.put("EmployeeName",empname.getText().toString());
-
-        pobj.saveInBackground();
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
+        String empNameStr = empname.getText().toString();
+        String empIdStr = empid.getText().toString();
+        String empCardNo = cardno.getText().toString();
+        String empMacAddress = macadd.getText().toString();
+        if(empNameStr.equals("") || empIdStr.equals("") || empCardNo.equals("") || empMacAddress.equals("")){
+            Toast.makeText(getApplicationContext(), "Enter all Details of Employee", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            pobj.put("EmployeeName", empNameStr);
+            pobj.put("EmployeeID", empIdStr);
+            pobj.put("CardNo", empCardNo);
+            pobj.put("MacAddress", empMacAddress);
+            pobj.saveInBackground();
+            Toast.makeText(getApplicationContext(), "Employee Added to Database", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, DisplayActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
