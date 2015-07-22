@@ -19,7 +19,6 @@ public class addemployeee extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addemployeee);
-        Button b = (Button)findViewById(R.id.button);
 
     }
 
