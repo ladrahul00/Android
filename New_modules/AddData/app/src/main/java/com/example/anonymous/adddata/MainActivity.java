@@ -21,22 +21,10 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "ecNYEdsTREI9Mwzx5gWOoh2HB9V78KvVWe8W8iIA", "YHuKHkJdjm4gSdl6lrZavY9Sdx06Da1DPNNXy40p");
-
-    }
-
-    public void view_log(View v){
-        Intent intent = new Intent(MainActivity.this, EmployeeLog.class);
-        startActivity(intent);
-    }
-
-    public void add_employee(View v){
-        Intent intent = new Intent(MainActivity.this,addemployeee.class);
-        startActivity(intent);
-    }
-
-    public void remove_employee(View v){
-        Intent intent = new Intent(MainActivity.this,removeemployee.class);
-        startActivity(intent);
+        Intent intent = new Intent(this,ServerServiceIntent.class);
+        startService(intent);
+        Intent it = new Intent(this,DisplayActivity.class);
+        startActivity(it);
     }
 
     @Override
@@ -44,6 +32,13 @@ public class MainActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this,ServerServiceIntent.class));
+
+        super.onDestroy();
     }
 
     @Override

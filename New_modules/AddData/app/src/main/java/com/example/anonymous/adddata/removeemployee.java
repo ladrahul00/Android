@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -27,25 +28,29 @@ public class removeemployee extends ActionBarActivity {
     public void removeData(View v){
         EditText editText = (EditText)findViewById(R.id.EmployeeID);
         String empidString = editText.getText().toString();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeData");
-        query.whereEqualTo("EmployeeID",empidString);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                if(e==null){
-                    for (int i = 0; i < list.size(); i++) {
-                        ParseObject pobj = list.get(i);
-                        pobj.deleteEventually();
-                        Intent intent = new Intent(removeemployee.this,MainActivity.class);
-                        startActivity(intent);
+        if(empidString.equals("")){
+            Toast.makeText(getApplicationContext(), "Enter Employee Id", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeData");
+            query.whereEqualTo("EmployeeID", empidString);
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> list, ParseException e) {
+                    if (e == null) {
+                        for (int i = 0; i < list.size(); i++) {
+                            ParseObject pobj = list.get(i);
+                            pobj.deleteEventually();
+                            Toast.makeText(getApplicationContext(), "Employee Removed from Database", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(removeemployee.this, DisplayActivity.class);
+                            startActivity(intent);
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Employee Not found", Toast.LENGTH_SHORT).show();
                     }
                 }
-                else{
-
-                }
-            }
-        });
-
+            });
+        }
     }
 
     @Override
