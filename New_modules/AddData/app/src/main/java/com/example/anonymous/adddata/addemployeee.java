@@ -18,7 +18,6 @@ public class addemployeee extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addemployeee);
-        Button b = (Button)findViewById(R.id.button);
 
     }
 
@@ -32,7 +31,6 @@ public class addemployeee extends ActionBarActivity {
         pobj.put("CardNo", cardno.getText().toString());
         EditText empname = (EditText)findViewById(R.id.empname);
         pobj.put("EmployeeName",empname.getText().toString());
-
         pobj.saveInBackground();
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);

@@ -264,7 +264,6 @@ public class CheckInOut extends ActionBarActivity {
             String data = msg.obj.toString();
             switch (msg.what) {
                 case 1:
-                    // button button = (button)findViewById(R.id.button);
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
                     SharedPreferences.Editor editor = pref.edit();
                     int a = pref.getInt("key_name", 0);
@@ -276,8 +275,6 @@ public class CheckInOut extends ActionBarActivity {
                         Toast.makeText(getApplicationContext(), "Check Out Acknowledged", Toast.LENGTH_SHORT).show();
                         pw.setText("Enter");
                         pw.setTextSize(30);
-                        // button.setBackgroundResource(R.drawable.out);
-                        //button.setText("IN");
                     } else {
                         editor.putInt("key_name", 0);
                         editor.commit();

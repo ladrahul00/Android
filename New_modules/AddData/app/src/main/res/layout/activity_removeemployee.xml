@@ -13,8 +13,8 @@
         android:text="Employee ID :-"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button"
+        android:layout_alignRight="@+id/button5"
+        android:layout_alignEnd="@+id/button5"
         android:layout_marginTop="20dp"/>
 
     <EditText
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete Employee"
-        android:id="@+id/button"
+        android:id="@+id/button5"
         android:onClick="removeData"
         android:background="#8BC34A"
         android:layout_below="@+id/EmployeeID"
