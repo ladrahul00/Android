@@ -70,6 +70,9 @@ public class ServerServiceIntent extends IntentService {
         super("ServerServiceIntent");
         ConnectThread mConnect = new ConnectThread();
         mConnect.start();
+        //BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        //bluetoothAdapter.enable();
+
     }
 
     @Override

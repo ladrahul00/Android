@@ -7,11 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.anonymous.adddata.EmployeeLog;
 import com.example.anonymous.adddata.R;
 import com.parse.Parse;
-
 
 public class MainActivity extends ActionBarActivity {
 
@@ -22,22 +22,9 @@ public class MainActivity extends ActionBarActivity {
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "ecNYEdsTREI9Mwzx5gWOoh2HB9V78KvVWe8W8iIA", "YHuKHkJdjm4gSdl6lrZavY9Sdx06Da1DPNNXy40p");
         Intent intent = new Intent(this,ServerServiceIntent.class);
-       // startService(intent);
-    }
-
-    public void view_log(View v){
-        Intent intent = new Intent(MainActivity.this, EmployeeLog.class);
-        startActivity(intent);
-    }
-
-    public void add_employee(View v){
-        Intent intent = new Intent(MainActivity.this,addemployeee.class);
-        startActivity(intent);
-    }
-
-    public void remove_employee(View v){
-        Intent intent = new Intent(MainActivity.this,removeemployee.class);
-        startActivity(intent);
+        startService(intent);
+        Intent it = new Intent(this,DisplayActivity.class);
+        startActivity(it);
     }
 
     @Override
