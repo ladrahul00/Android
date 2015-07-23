@@ -27,6 +27,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
 import java.util.Set;
 import java.util.UUID;
 
@@ -82,12 +83,53 @@ public class CheckInOut extends ActionBarActivity {
             pw.setText("Enter");
             pw.setTextSize(30);
         }
-
-
-
+        PrintMessage();
     }
 
+    public void PrintMessage(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
+        SharedPreferences.Editor editor = pref.edit();
+        int a = pref.getInt("key_name", 0);
+        editor.commit();
 
+        if(a==0) {
+            String weekDay = "";
+            Calendar cal = Calendar.getInstance();
+            int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+            if (Calendar.MONDAY == dayOfWeek) weekDay = "Okay Monday, Let’s do this!";
+            else if (Calendar.TUESDAY == dayOfWeek)
+                weekDay = "Its only Tuesday and you're almost done with 95% of the week!";
+            else if (Calendar.WEDNESDAY == dayOfWeek)
+                weekDay = "Keep calm you're halfway through!!";
+            else if (Calendar.THURSDAY == dayOfWeek)
+                weekDay = "Better days are just around the corner, They are Friday, Saturday and Sunday";
+            else if (Calendar.FRIDAY == dayOfWeek) weekDay = "Thank god it’s Friday";
+            else if (Calendar.SATURDAY == dayOfWeek)
+                weekDay = "I love working “Saturday” said no one ever.";
+            else if (Calendar.SUNDAY == dayOfWeek) weekDay = "Happy Sunday!";
+            TextView msg = (TextView) findViewById(R.id.Message);
+            msg.setText(weekDay);
+        }
+        else
+        {
+            String weekDay = "";
+            Calendar cal = Calendar.getInstance();
+            int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+            if (Calendar.MONDAY == dayOfWeek) weekDay = "Its Monday Don’t forget to be awesome";
+            else if (Calendar.TUESDAY == dayOfWeek)
+                weekDay = "Take off Tuesday!!";
+            else if (Calendar.WEDNESDAY == dayOfWeek)
+                weekDay = "Have a bright and beautiful Wednesday";
+            else if (Calendar.THURSDAY == dayOfWeek)
+                weekDay = "You say Thursday, I say Its Friday eve.";
+            else if (Calendar.FRIDAY == dayOfWeek) weekDay = "Ready for the weekend??";
+            else if (Calendar.SATURDAY == dayOfWeek)
+                weekDay = "If you can’t be bothered to work on Saturday, Don’t bother to come in on Sunday";
+            else if (Calendar.SUNDAY == dayOfWeek) weekDay = "Finally time to rest :P";
+            TextView msg = (TextView) findViewById(R.id.Message);
+            msg.setText(weekDay);
+        }
+    }
 
     public void sendMessage(){
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -275,11 +317,13 @@ public class CheckInOut extends ActionBarActivity {
                         Toast.makeText(getApplicationContext(), "Check Out Acknowledged", Toast.LENGTH_SHORT).show();
                         pw.setText("Enter");
                         pw.setTextSize(30);
+                        PrintMessage();
                     } else {
                         editor.putInt("key_name", 0);
                         editor.commit();
                         pw.setText("Exit");
                         pw.setTextSize(30);
+                        PrintMessage();
                         Toast.makeText(getApplicationContext(), "Check In Acknowledged", Toast.LENGTH_SHORT).show();
                     }
                     break;

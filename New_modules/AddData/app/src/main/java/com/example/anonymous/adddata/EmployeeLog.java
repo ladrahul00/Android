@@ -61,8 +61,6 @@ public class EmployeeLog extends ActionBarActivity {
                 // progress=seekBar.getProgress();
                 Toast.makeText(EmployeeLog.this, "seek bar progress:" + progress,
                         Toast.LENGTH_SHORT).show();
-
-
             }
         });
         Calendar cal = Calendar.getInstance();
@@ -87,7 +85,6 @@ public class EmployeeLog extends ActionBarActivity {
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(Calendar.DAY_OF_MONTH, currentDate - k);
-
 
         String dType = "dd / MM / yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dType);
