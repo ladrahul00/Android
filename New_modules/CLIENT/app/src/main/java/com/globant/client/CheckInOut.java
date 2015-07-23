@@ -283,7 +283,8 @@ public class CheckInOut extends ActionBarActivity {
                         editor.commit();
                         pw.setText("Exit");
                         pw.setTextSize(30);
-                        Toast.makeText(getApplicationContext(), "Check In Acknowledged", Toast.LENGTH_SHORT).show();
+
+                        
                     }
                     break;
                 case 2:
