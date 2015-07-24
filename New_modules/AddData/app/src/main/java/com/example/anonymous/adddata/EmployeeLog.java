@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -32,18 +33,29 @@ import java.util.List;
 public class EmployeeLog extends ActionBarActivity {
     private String empid;
     ListView listView;
+    String Date;
     private ArrayAdapter<String> lvArrayAdapter;
     int progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_log);
-        //Parse.enableLocalDatastore(this);
-        //Parse.initialize(this, "ecNYEdsTREI9Mwzx5gWOoh2HB9V78KvVWe8W8iIA", "YHuKHkJdjm4gSdl6lrZavY9Sdx06Da1DPNNXy40p");
 
         SearchView search=(SearchView) findViewById(R.id.searchView);
         search.setQueryHint("SearchView");
 
+
+        Calendar cal = Calendar.getInstance();
+        int currentDate = cal.get(Calendar.DAY_OF_MONTH);
+        cal.set(Calendar.DAY_OF_MONTH, currentDate);
+        String dType = "dd / MM / yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(dType);
+        Date = sdf.format(cal.getTime());
+        try {
+            showAll(Date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
  /*               //*** setOnQueryTextFocusChangeListener ***
                 search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener()
                 {
@@ -61,56 +73,110 @@ public class EmployeeLog extends ActionBarActivity {
             @Override
             public boolean onQueryTextSubmit(String arg0) {
                 //search parse for emp id = arg0
-
+                try {
+                    showLogs(arg0);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
                 return true;
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // progress=seekBar.getProgress();
-                Toast.makeText(EmployeeLog.this, "seek bar progress:" + progress,
-                        Toast.LENGTH_SHORT).show();
-            public boolean onQueryTextChange(String arg0) {
-
+            public boolean onQueryTextChange(String s) {
                 return false;
             }
+
         });
 
+    }
 
+
+    public void today(View v)throws ParseException
+    {
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(Calendar.DAY_OF_MONTH, currentDate);
         String dType = "dd / MM / yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dType);
-        String CurrentDate = sdf.format(cal.getTime());
-        TextView textView = (TextView)findViewById(R.id.textView3);
-        textView.setText(CurrentDate);
-    }
-
-   /* public void showLogs(View v) throws ParseException {
-
+        Date = sdf.format(cal.getTime());
         lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
-
-        Calendar cal = Calendar.getInstance();
-        int currentDate = cal.get(Calendar.DAY_OF_MONTH);
-        cal.set(Calendar.DAY_OF_MONTH, currentDate - k);
-
-        String dType = "dd / MM / yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(dType);
-        String CurrentDate = sdf.format(cal.getTime());
-        TextView textView = (TextView)findViewById(R.id.textView3);
-        textView.setText(CurrentDate);
-
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeLog");
-        query.whereEqualTo("Date", CurrentDate);
+        query.whereEqualTo("Date", Date);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, com.parse.ParseException e) {
                 if (e == null) {
                     for (int i = 0; i < list.size(); i++) {
                         ParseObject pobj = list.get(i);
-                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time");
+                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time") + pobj.get("Date");
+                        lvArrayAdapter.add(str);
+                    }
+                } else {
+                    String str = "No Records found";
+                    lvArrayAdapter.add(str);
+                }
+            }
+        });
+        listView = (ListView)findViewById(R.id.listView);
+        listView.setAdapter(lvArrayAdapter);
+
+        TextView day=(TextView)findViewById(R.id.day);
+        day.setText("TODAY");
+        Button today=(Button)findViewById(R.id.today);
+        today.setVisibility(View.INVISIBLE);
+        Button yesterday=(Button)findViewById(R.id.yesterday);
+        yesterday.setVisibility(View.VISIBLE);
+    }
+
+    public void yesterday(View v)throws ParseException
+    {
+        Calendar cal = Calendar.getInstance();
+        int currentDate = cal.get(Calendar.DAY_OF_MONTH);
+        cal.set(Calendar.DAY_OF_MONTH, currentDate-1);
+        String dType = "dd / MM / yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(dType);
+        String Date = sdf.format(cal.getTime());
+        lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeLog");
+        query.whereEqualTo("Date", Date);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, com.parse.ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < list.size(); i++) {
+                        ParseObject pobj = list.get(i);
+                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time") + pobj.get("Date");
+                        lvArrayAdapter.add(str);
+                    }
+                } else {
+                    String str = "No Records found";
+                    lvArrayAdapter.add(str);
+                }
+            }
+        });
+        listView = (ListView)findViewById(R.id.listView);
+        listView.setAdapter(lvArrayAdapter);
+
+        TextView day=(TextView)findViewById(R.id.day);
+        day.setText("YESTERDAY");
+        Button today=(Button)findViewById(R.id.today);
+        today.setVisibility(View.VISIBLE);
+        Button yesterday=(Button)findViewById(R.id.yesterday);
+        yesterday.setVisibility(View.INVISIBLE);
+    }
+
+    public void showAll(String Date)throws ParseException{
+        lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeLog");
+        query.whereEqualTo("Date", Date);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, com.parse.ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < list.size(); i++) {
+                        ParseObject pobj = list.get(i);
+                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time")+ pobj.get("Date");
                         lvArrayAdapter.add(str);
                     }
                 } else {
@@ -121,27 +187,46 @@ public class EmployeeLog extends ActionBarActivity {
         });
         listView = (ListView)findViewById(R.id.listView);
         listView.setAdapter(lvArrayAdapter);
-    } */
+    }
+
+    public void showLogs(String emp) throws ParseException {
+
+        lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+        final ParseQuery<ParseObject> query1 = ParseQuery.getQuery("EmployeeLog");
+        query1.whereEqualTo("EmployeeID", emp);
+
+        final ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Date");
+        query2.whereEqualTo("Date", Date);
+
+        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+        queries.add(query1);
+        queries.add(query2);
+
+        ParseQuery<ParseObject> query =ParseQuery.and(queries);
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, com.parse.ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < list.size(); i++) {
+                        ParseObject pobj = list.get(i);
+                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time")+ pobj.get("Date");
+                        lvArrayAdapter.add(str);
+                    }
+                } else {
+                    String str="No Records found";
+                    lvArrayAdapter.add(str);
+                }
+            }
+        });
+        listView = (ListView)findViewById(R.id.listView);
+        listView.setAdapter(lvArrayAdapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_employee_log, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
