@@ -69,7 +69,7 @@ public class MainActivityClient extends ActionBarActivity implements GoogleApiCl
         pwin.spin(true);
         String empID = pref.getString("EmployeeIDKey", "blank");//receive from preference
         editor.commit();
-
+        addGeofencesButtonHandler();
         assert empID != null;
         if(empID.equals("blank")){
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -141,6 +141,27 @@ public class MainActivityClient extends ActionBarActivity implements GoogleApiCl
         }
     }
 
+    public void addGeofencesButtonHandler() {
+        if (!mGoogleApiClient.isConnected()) {
+            //Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            LocationServices.GeofencingApi.addGeofences(
+                    mGoogleApiClient,
+                    // The GeofenceRequest object.
+                    getGeofencingRequest(),
+                    // A pending intent that that is reused when calling removeGeofences(). This
+                    // pending intent is used to generate an intent when a matched geofence
+                    // transition is observed.
+                    getGeofencePendingIntent()
+            ).setResultCallback(this); // Result processed in onResult().
+        } catch (SecurityException securityException) {
+            // Catch exception generated if the app does not use ACCESS_FINE_LOCATION permission.
+            //logSecurityException(securityException);
+        }
+    }
 
     /**
      * Gets a PendingIntent to send with the request to add or remove Geofences. Location Services
