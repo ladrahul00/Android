@@ -81,7 +81,8 @@
         android:id="@+id/Message"
         android:layout_below="@+id/pw_spinner1"
         android:layout_centerHorizontal="true"
-        android:textColor="#222222" />
+        android:textColor="#999999"
+        android:textSize="18dp" />
 
 
 </RelativeLayout>
