@@ -94,6 +94,8 @@ public class EmployeeLog extends ActionBarActivity {
 
     public void today(View v)throws ParseException
     {
+        TextView show=(TextView)findViewById(R.id.show);
+        show.setText("");
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(Calendar.DAY_OF_MONTH, currentDate);
@@ -131,6 +133,8 @@ public class EmployeeLog extends ActionBarActivity {
 
     public void yesterday(View v)throws ParseException
     {
+        TextView show=(TextView)findViewById(R.id.show);
+        show.setText("");
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(Calendar.DAY_OF_MONTH, currentDate-1);
@@ -190,7 +194,8 @@ public class EmployeeLog extends ActionBarActivity {
     }
 
     public void showLogs(String emp) throws ParseException {
-
+        TextView show=(TextView)findViewById(R.id.show);
+        show.setText("searching for "+emp);
         lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
 
         final ParseQuery<ParseObject> query1 = ParseQuery.getQuery("EmployeeLog");
@@ -213,6 +218,8 @@ public class EmployeeLog extends ActionBarActivity {
                         lvArrayAdapter.add(str);
                     }
                 } else {
+                    TextView show=(TextView)findViewById(R.id.show);
+                    show.setText("");
                     String str="No Records found";
                     lvArrayAdapter.add(str);
                 }
@@ -220,6 +227,7 @@ public class EmployeeLog extends ActionBarActivity {
         });
         listView = (ListView)findViewById(R.id.listView);
         listView.setAdapter(lvArrayAdapter);
+        show.setText("showing for " + emp);
     }
 
     @Override
