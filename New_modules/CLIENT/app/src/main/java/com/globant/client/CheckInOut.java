@@ -325,7 +325,7 @@ public class CheckInOut extends ActionBarActivity {
                         pw.setTextSize(30);
                         PrintMessage();
                         Toast.makeText(getApplicationContext(), "Check In Acknowledged", Toast.LENGTH_SHORT).show();
-                    }
+            }
                     break;
                 case 2:
                     pw.stopSpinning();
