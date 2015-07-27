@@ -25,19 +25,20 @@ public class MyWidgetIntentReceiver extends BroadcastReceiver {
 
     public void updateWidgetName(Context context) throws InterruptedException {
         Toast.makeText(context, "U clicked",Toast.LENGTH_SHORT).show();
+        Intent configIntent = new Intent(context.getApplicationContext(), WidgetService.class);
+        context.startService(configIntent);
+        //widget.LOCK.acquire();
         layoutID=R.layout.widgetextendlayout;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), layoutID);
         widget.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
-        Intent configIntent = new Intent(context.getApplicationContext(), WidgetService.class);
-        context.startService(configIntent);
 
-        //widget.LOCK.acquire();
+        //layoutID=R.layout.widget;
+        //RemoteViews remoteViews1 = new RemoteViews(context.getPackageName(), layoutID);
+//        remoteViews.setOnClickPendingIntent(R.id.imageButton, widget.buildButtonPendingIntent(context));
 
-        /*layoutID=R.layout.widget;
-        RemoteViews remoteViews1 = new RemoteViews(context.getPackageName(), layoutID);
-        widget.pushWidgetUpdate(context.getApplicationContext(), remoteViews1);
-*/
+        //widget.pushWidgetUpdate(context.getApplicationContext(), remoteViews1);
 
-        //remoteViews.setOnClickPendingIntent(R.id.imageButton, widget.buildButtonPendingIntent(context));
+
+
     }
 }

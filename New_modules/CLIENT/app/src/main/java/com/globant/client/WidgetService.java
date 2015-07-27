@@ -110,12 +110,12 @@ public class WidgetService extends Service {
                 }catch(IOException ee){}
                 BluetoothAdapter badapt = BluetoothAdapter.getDefaultAdapter();
                 badapt.disable();
+                Message msg = myHandler.obtainMessage(0, "Device Not connected");
+                msg.sendToTarget();
                 return;
             }
             ConnectedWidgetThread connectedWidgetThread = new ConnectedWidgetThread(mmSocket,employeeID);
             connectedWidgetThread.start();
-            Message msg = myHandler.obtainMessage(2, "Device Not connected");
-            msg.sendToTarget();
             return;
         }
         public void cancel(){
@@ -165,7 +165,7 @@ public class WidgetService extends Service {
                 bytes = mmInStream.read(xyz);
                 String m = new String(xyz);
                 Message msg = myHandler.obtainMessage(1, m);
-                msg.what=SEND_ACK;
+                //msg.what=SEND_ACK;
                 msg.sendToTarget();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -185,7 +185,7 @@ public class WidgetService extends Service {
         public void handleMessage(Message msg) {
             String data = msg.obj.toString();
             switch(msg.what) {
-                case SEND_ACK:
+                case 1:
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
                     SharedPreferences.Editor editor = pref.edit();
                     int a = pref.getInt("key_name", 0);
@@ -200,7 +200,7 @@ public class WidgetService extends Service {
                         Toast.makeText(getApplicationContext(), "Check In Acknowledged", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case SEND_STATE:
+                case 0:
                     Toast.makeText(getApplicationContext(), "Server device not found", Toast.LENGTH_SHORT).show();
                     break;
             }
