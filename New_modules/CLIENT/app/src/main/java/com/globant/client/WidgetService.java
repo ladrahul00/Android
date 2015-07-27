@@ -208,8 +208,8 @@ public class WidgetService extends Service {
             Context context = getApplicationContext();
             int layoutID=R.layout.widget;
             RemoteViews remoteViews1 = new RemoteViews(context.getPackageName(), layoutID);
+            remoteViews1.setOnClickPendingIntent(R.id.imageButton, widget.buildButtonPendingIntent(context));
             widget.pushWidgetUpdate(context, remoteViews1);
         }
     };
-
 }
