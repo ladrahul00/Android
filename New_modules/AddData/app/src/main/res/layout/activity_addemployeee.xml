@@ -7,20 +7,8 @@
     tools:context="com.example.anonymous.adddata.addemployeee"
     android:background="#FFFFFF">
 
-    <!-- <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Data"
-        android:id="@+id/button"
-        android:onClick="addData"
-        android:background="#8BC34A"
-        android:layout_marginBottom="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />-->
-
-
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
@@ -28,38 +16,38 @@
         android:textColor="#000000"
         android:hint="Employee Name -"
         android:textColorHint="#aaaaaa"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="100dp"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/EmployeeID"
         android:textColor="#000000"
         android:layout_below="@+id/empname"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:textColorHint="#aaaaaa"
         android:hint="Employee ID -"
         />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/macadd"
         android:layout_centerVertical="true"
         android:layout_below="@+id/EmployeeID"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:textColor="#000000"
         android:hint="Mac Address - "
         android:textColorHint="#aaaaaa"
         />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/cardno"
         android:textColor="#000000"
         android:layout_below="@+id/macadd"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:textColorHint="#aaaaaa"
         android:hint="Card No -"
         />
@@ -71,6 +59,17 @@
         android:onClick="addData"
         android:background="@drawable/add"
         android:layout_below="@+id/cardno"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="ADD EMPLOYEE DATA"
+        android:id="@+id/textView"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="italic" />
 </RelativeLayout>
