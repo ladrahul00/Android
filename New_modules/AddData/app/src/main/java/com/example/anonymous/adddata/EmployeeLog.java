@@ -9,6 +9,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -36,6 +37,8 @@ public class EmployeeLog extends ActionBarActivity {
     String date;
     private ArrayAdapter<String> lvArrayAdapter;
     int progress;
+    TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +46,14 @@ public class EmployeeLog extends ActionBarActivity {
 
         SearchView search=(SearchView) findViewById(R.id.searchView);
         search.setQueryHint("SearchView");
-
-
+        textView = (TextView)findViewById(R.id.show);
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(Calendar.DAY_OF_MONTH, currentDate);
         String dType = "dd / MM / yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dType);
         date = sdf.format(cal.getTime());
+        textView.setText("Showing Logs for "+date);
         try {
             showAll();
         } catch (ParseException e) {
@@ -94,12 +97,15 @@ public class EmployeeLog extends ActionBarActivity {
 
     public void today(View v)throws ParseException
     {
+        TextView show=(TextView)findViewById(R.id.show);
+        show.setText("");
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(Calendar.DAY_OF_MONTH, currentDate);
         String dType = "dd / MM / yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dType);
         date = sdf.format(cal.getTime());
+        textView.setText("Showing Logs for "+date);
         lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeLog");
         query.whereEqualTo("Date", date);
@@ -109,7 +115,7 @@ public class EmployeeLog extends ActionBarActivity {
                 if (e == null) {
                     for (int i = 0; i < list.size(); i++) {
                         ParseObject pobj = list.get(i);
-                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time") + pobj.get("Date");
+                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time");
                         lvArrayAdapter.add(str);
                     }
                 } else {
@@ -131,12 +137,15 @@ public class EmployeeLog extends ActionBarActivity {
 
     public void yesterday(View v)throws ParseException
     {
+        TextView show=(TextView)findViewById(R.id.show);
+        show.setText("");
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(Calendar.DAY_OF_MONTH, currentDate-1);
         String dType = "dd / MM / yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dType);
         date = sdf.format(cal.getTime());
+        textView.setText("Showing Logs for "+date);
         lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeLog");
         query.whereEqualTo("Date", date);
@@ -146,7 +155,7 @@ public class EmployeeLog extends ActionBarActivity {
                 if (e == null) {
                     for (int i = 0; i < list.size(); i++) {
                         ParseObject pobj = list.get(i);
-                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time") + pobj.get("Date");
+                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time");
                         lvArrayAdapter.add(str);
                     }
                 } else {
@@ -176,7 +185,7 @@ public class EmployeeLog extends ActionBarActivity {
                 if (e == null) {
                     for (int i = 0; i < list.size(); i++) {
                         ParseObject pobj = list.get(i);
-                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time")+ pobj.get("Date");
+                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time");
                         lvArrayAdapter.add(str);
                     }
                 } else {
@@ -190,13 +199,14 @@ public class EmployeeLog extends ActionBarActivity {
     }
 
     public void showLogs(String emp) throws ParseException {
-
+        TextView show=(TextView)findViewById(R.id.show);
+        show.setText("searching for "+emp);
         lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
 
         final ParseQuery<ParseObject> query1 = ParseQuery.getQuery("EmployeeLog");
         query1.whereEqualTo("EmployeeID", emp);
         query1.whereEqualTo("Date", date);
-
+        textView.setText("Showing Logs of "+date+" for "+emp);
         //List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
         //queries.add(query1);
         //queries.add(query2);
@@ -209,10 +219,12 @@ public class EmployeeLog extends ActionBarActivity {
                 if (e == null) {
                     for (int i = 0; i < list.size(); i++) {
                         ParseObject pobj = list.get(i);
-                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time")+ pobj.get("Date");
+                        String str = pobj.get("Status") + "     " + pobj.get("Time");
                         lvArrayAdapter.add(str);
                     }
                 } else {
+                    TextView show=(TextView)findViewById(R.id.show);
+                    show.setText("");
                     String str="No Records found";
                     lvArrayAdapter.add(str);
                 }
@@ -220,6 +232,7 @@ public class EmployeeLog extends ActionBarActivity {
         });
         listView = (ListView)findViewById(R.id.listView);
         listView.setAdapter(lvArrayAdapter);
+        show.setText("showing for " + emp);
     }
 
     @Override

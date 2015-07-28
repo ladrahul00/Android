@@ -10,10 +10,12 @@ import android.widget.RemoteViews;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 
+import java.util.concurrent.Semaphore;
+
 public class widget extends AppWidgetProvider {
     static boolean clicked=false;
     static int layoutID;
-
+    public static final Semaphore LOCK = new Semaphore(0);
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context,appWidgetManager,appWidgetIds);
@@ -37,6 +39,7 @@ public class widget extends AppWidgetProvider {
         Intent intent = new Intent();
         intent.setAction("android.bluetooth.rec");
         //ProgressWheel pw = new ProgressWheel(context,R.id.imageView);
+
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 

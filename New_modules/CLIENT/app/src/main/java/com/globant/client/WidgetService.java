@@ -3,6 +3,7 @@ import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,12 +110,12 @@ public class WidgetService extends Service {
                 }catch(IOException ee){}
                 BluetoothAdapter badapt = BluetoothAdapter.getDefaultAdapter();
                 badapt.disable();
+                Message msg = myHandler.obtainMessage(0, "Device Not connected");
+                msg.sendToTarget();
                 return;
             }
             ConnectedWidgetThread connectedWidgetThread = new ConnectedWidgetThread(mmSocket,employeeID);
             connectedWidgetThread.start();
-            Message msg = myHandler.obtainMessage(2, "Device Not connected");
-            msg.sendToTarget();
             return;
         }
         public void cancel(){
@@ -163,7 +165,7 @@ public class WidgetService extends Service {
                 bytes = mmInStream.read(xyz);
                 String m = new String(xyz);
                 Message msg = myHandler.obtainMessage(1, m);
-                msg.what=SEND_ACK;
+                //msg.what=SEND_ACK;
                 msg.sendToTarget();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -181,28 +183,33 @@ public class WidgetService extends Service {
     public android.os.Handler myHandler = new android.os.Handler() {
         @Override
         public void handleMessage(Message msg) {
-        String data = msg.obj.toString();
-        switch(msg.what) {
-            case SEND_ACK:
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
-                SharedPreferences.Editor editor = pref.edit();
-                int a = pref.getInt("key_name", 0);
-                editor.commit();
-                if (a == 0) {
-                    editor.putInt("key_name", 1);
+            String data = msg.obj.toString();
+            switch(msg.what) {
+                case 1:
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
+                    SharedPreferences.Editor editor = pref.edit();
+                    int a = pref.getInt("key_name", 0);
                     editor.commit();
-                    Toast.makeText(getApplicationContext(), "Check Out Acknowledged", Toast.LENGTH_SHORT).show();
-                } else {
-                    editor.putInt("key_name", 0);
-                    editor.commit();
-                    Toast.makeText(getApplicationContext(), "Check In Acknowledged", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case SEND_STATE:
-                Toast.makeText(getApplicationContext(), "Server device not found", Toast.LENGTH_SHORT).show();
-                break;
-        }
+                    if (a == 0) {
+                        editor.putInt("key_name", 1);
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(), "Check Out Acknowledged", Toast.LENGTH_SHORT).show();
+                    } else {
+                        editor.putInt("key_name", 0);
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(), "Check In Acknowledged", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case 0:
+                    Toast.makeText(getApplicationContext(), "Server device not found", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+            //widget.LOCK.release();
+            Context context = getApplicationContext();
+            int layoutID=R.layout.widget;
+            RemoteViews remoteViews1 = new RemoteViews(context.getPackageName(), layoutID);
+            remoteViews1.setOnClickPendingIntent(R.id.imageButton, widget.buildButtonPendingIntent(context));
+            widget.pushWidgetUpdate(context, remoteViews1);
         }
     };
-
 }
