@@ -187,7 +187,7 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
     public void logOut(View view){
         SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0);
         pref.edit().clear().commit();
-        Intent intent = new Intent(this,MainActivityClient.class);
+        Intent intent = new Intent(this,AuthenticateEmployee.class);
         startActivity(intent);
     }
 
@@ -348,13 +348,13 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
                         editor.commit();
                         Toast.makeText(getApplicationContext(), "Check Out Acknowledged", Toast.LENGTH_SHORT).show();
                         pw.setText("Enter");
-                        pw.setTextSize(30);
+                        pw.setTextSize(50);
                         PrintMessage();
                     } else {
                         editor.putInt("key_name", 0);
                         editor.commit();
                         pw.setText("Exit");
-                        pw.setTextSize(30);
+                        pw.setTextSize(50);
                         PrintMessage();
                         Toast.makeText(getApplicationContext(), "Check In Acknowledged", Toast.LENGTH_SHORT).show();
             }

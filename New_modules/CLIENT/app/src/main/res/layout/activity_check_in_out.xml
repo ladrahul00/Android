@@ -50,7 +50,8 @@
         android:textSize="30dp"
         android:layout_below="@+id/imageView2"
         android:layout_centerHorizontal="true"
-         />
+        android:textStyle="italic"
+        android:typeface="serif" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -82,7 +83,10 @@
         android:layout_below="@+id/pw_spinner1"
         android:layout_centerHorizontal="true"
         android:textColor="#999999"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:textStyle="italic"
+        android:typeface="serif"
+        android:gravity="center_horizontal" />
 
 
 </RelativeLayout>

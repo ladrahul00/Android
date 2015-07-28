@@ -7,16 +7,5 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivityClient"
     android:background="#FFFFFF">
 
-    <com.globant.client.ProgressWheel
-        android:id="@+id/pw_spinner1"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_centerInParent="true" />
-
-    <com.globant.client.ProgressWheel
-        android:id="@+id/pw_spinner2"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_centerInParent="true" />
 
 </RelativeLayout>

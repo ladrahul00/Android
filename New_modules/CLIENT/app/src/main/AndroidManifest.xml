@@ -55,6 +55,11 @@
             android:name=".GeofenceTransitionsIntentService"
             android:exported="false" >
         </service>
+
+        <activity
+            android:name=".AuthenticateEmployee"
+            android:label="@string/title_activity_authenticate_employee" >
+        </activity>
     </application>
 
 </manifest>

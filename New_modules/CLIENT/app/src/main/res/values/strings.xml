@@ -7,4 +7,7 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="title_activity_widget_data_send">WidgetDataSend</string>
+    <string name="title_activity_authenticate_employee">AuthenticateEmployee</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
