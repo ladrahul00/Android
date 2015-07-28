@@ -1,6 +1,7 @@
 package com.globant.client;
 
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,9 @@ public class MyWidgetIntentReceiver extends BroadcastReceiver {
         //widget.LOCK.acquire();
         layoutID=R.layout.widgetextendlayout;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), layoutID);
+        Intent intent = new Intent(context,MainActivityClient.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,0);
+        remoteViews.setOnClickPendingIntent(R.id.button,pendingIntent);
         widget.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
 
         //layoutID=R.layout.widget;

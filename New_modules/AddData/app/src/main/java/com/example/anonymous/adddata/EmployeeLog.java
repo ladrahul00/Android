@@ -46,7 +46,7 @@ public class EmployeeLog extends ActionBarActivity {
 
         SearchView search=(SearchView) findViewById(R.id.searchView);
         search.setQueryHint("SearchView");
-        textView = (TextView)findViewById(R.id.textView);
+        textView = (TextView)findViewById(R.id.show);
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(Calendar.DAY_OF_MONTH, currentDate);

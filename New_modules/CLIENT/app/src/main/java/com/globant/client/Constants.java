@@ -33,10 +33,10 @@ public final class Constants {
     public static final HashMap<String, LatLng> PUNE_AREA_LANDMARKS = new HashMap<String, LatLng>();
     static {
         // Clarice Technologies
-        //PUNE_AREA_LANDMARKS.put("CLARICE", new LatLng(18.556691, 73.793268));
+        PUNE_AREA_LANDMARKS.put("CLARICE", new LatLng(18.556691, 73.793268));
 
         // Wondercity Katraj
-        //PUNE_AREA_LANDMARKS.put("WONDERCITY", new LatLng(18.451234, 73.854965));
+        PUNE_AREA_LANDMARKS.put("WONDERCITY", new LatLng(18.451234, 73.854965));
 
         //Home
         PUNE_AREA_LANDMARKS.put("HOME", new LatLng(18.460772, 73.853756));
