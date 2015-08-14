@@ -1,10 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.globant.bazzinga.CheckInOut">
+    android:layout_height="match_parent"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    tools:context="com.globant.bazzinga.CheckInOut"
+    android:background="#ffffff">
 
     <ImageView
         android:layout_width="125dp"
@@ -16,10 +18,10 @@
         android:layout_alignParentEnd="true" />
 
 
-    <com.globant.client.ProgressWheel
+    <com.globant.bazzinga.ProgressWheel
         android:id="@+id/pw_spinner1"
         android:layout_width="200dp"
-        android:background="@drawable/butshadow"
+        android:background="@drawable/button_wheel_drawable"
         android:layout_height="200dp"
         android:layout_below="@+id/employeename"
         android:layout_centerHorizontal="true" />

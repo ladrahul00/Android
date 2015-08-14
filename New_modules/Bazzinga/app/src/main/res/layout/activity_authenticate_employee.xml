@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -7,13 +8,13 @@
     tools:context="com.globant.bazzinga.AuthenticateEmployee"
     android:background="#FFFFFF">
 
-    <com.globant.client.ProgressWheel
+    <com.globant.bazzinga.ProgressWheel
         android:id="@+id/pw_spinner1"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_centerInParent="true" />
 
-    <com.globant.client.ProgressWheel
+    <com.globant.bazzinga.ProgressWheel
         android:id="@+id/pw_spinner2"
         android:layout_width="170dp"
         android:layout_height="170dp"
