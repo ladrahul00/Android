@@ -24,43 +24,45 @@ public class AuthenticateEmployee extends ActionBarActivity {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
         SharedPreferences.Editor editor = pref.edit();
-        final ProgressWheel pw = (ProgressWheel)findViewById(R.id.pw_spinner1);
-        pw.spin(false);
-        pw.setText("Authenticating");
-        pw.setTextSize(30);
-        final ProgressWheel pwin = (ProgressWheel)findViewById(R.id.pw_spinner2);
-        pwin.spin(true);
 
-            BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-            String empMac = bluetoothAdapter.getAddress();
+        final ProgressWheel progressWheel1 = (ProgressWheel)findViewById(R.id.pw_spinner1);
+        progressWheel1.spin(false);//stop spinning custom view 1
 
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeData");
-            query.whereEqualTo("MacAddress",empMac);
-            query.getFirstInBackground(new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject parseObject, ParseException e) {
-                    if (parseObject == null) {
-                        Log.d("score", "The getFirst request failed.");
-                    } else {
-                        String empidString=parseObject.get("EmployeeID").toString();
-                        String empName=parseObject.get("EmployeeName").toString();
+        progressWheel1.setText("Authenticating");
+        progressWheel1.setTextSize(30);
 
+        final ProgressWheel progressWheel2 = (ProgressWheel)findViewById(R.id.pw_spinner2);
+        progressWheel2.spin(true);//stop spinning custom view 2
 
-                        SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
-                        SharedPreferences.Editor editor = pref.edit();
-                        pw.stopSpinning();
-                        pwin.stopSpinning();
-                        editor.putString("EmployeeIDKey", empidString);//store empid into preferences
-                        editor.commit();
-                        editor.putString("EmployeeName", empName);//store empid into preferences
-                        editor.commit();
-                        finish();
-                        Intent intent = new Intent(AuthenticateEmployee.this, CheckInOut.class);
-                        startActivity(intent);
-                    }
-                }
-            });
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        String empMac = bluetoothAdapter.getAddress();
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeData");
+        query.whereEqualTo("MacAddress",empMac);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+            if (parseObject == null) {
+                Log.d("score", "The getFirst request failed.");
+            } else {
+                String empidString=parseObject.get("EmployeeID").toString();
+                String empName=parseObject.get("EmployeeName").toString();
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
+                SharedPreferences.Editor editor = pref.edit();
+                progressWheel1.stopSpinning();
+                progressWheel2.stopSpinning();
+                editor.putInt("key_name", 1);//Employee Current state Outside
+                editor.commit();
+                editor.putString("EmployeeIDKey", empidString);//store Employee Name into preferences
+                editor.commit();
+                editor.putString("EmployeeName", empName);//store Employee ID into preferences
+                editor.commit();
+                finish();
+                Intent intent = new Intent(AuthenticateEmployee.this, CheckInOut.class);
+                startActivity(intent);
+            }
+            }
+        });
     }
 
     @Override
@@ -76,12 +78,10 @@ public class AuthenticateEmployee extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
