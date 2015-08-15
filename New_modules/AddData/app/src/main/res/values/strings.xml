@@ -7,4 +7,5 @@
     <string name="title_activity_addemployeee">addemployeee</string>
     <string name="title_activity_removeemployee">removeemployee</string>
     <string name="title_activity_display">DisplayActivity</string>
+    <string name="title_activity_add_employee">AddEmployee</string>
 </resources>

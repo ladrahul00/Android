@@ -26,10 +26,6 @@
             android:label="@string/title_activity_employee_log" >
         </activity>
         <activity
-            android:name=".addemployeee"
-            android:label="@string/title_activity_addemployeee" >
-        </activity>
-        <activity
             android:name=".removeemployee"
             android:label="@string/title_activity_removeemployee" >
         </activity>
@@ -42,6 +38,10 @@
         <activity
             android:name=".DisplayActivity"
             android:label="@string/title_activity_display" >
+        </activity>
+        <activity
+            android:name=".AddEmployee"
+            android:label="@string/title_activity_add_employee" >
         </activity>
     </application>
 

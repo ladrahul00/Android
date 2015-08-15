@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.widget.Toast;
 
 import com.parse.ParseObject;
 
@@ -70,9 +71,6 @@ public class ServerServiceIntent extends IntentService {
         super("ServerServiceIntent");
         ConnectThread mConnect = new ConnectThread();
         mConnect.start();
-        //BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        //bluetoothAdapter.enable();
-
     }
 
     @Override
@@ -109,52 +107,39 @@ public class ServerServiceIntent extends IntentService {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-/*    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
-    @Override
-    public void onDestroy() {
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        bluetoothAdapter.disable();
-        super.onDestroy();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-*/
     private class ConnectThread extends Thread {
         BluetoothAdapter myBluetoothAdapter;
         private BluetoothServerSocket mmSocket;
         private final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+        
         public ConnectThread() {
             mmSocket=null;
         }
+        
         public void run() {
             myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             myBluetoothAdapter.enable();
+            
             while(!myBluetoothAdapter.isEnabled());
+            
             BluetoothServerSocket temp = null;
+            
             try {
                 temp = myBluetoothAdapter.listenUsingRfcommWithServiceRecord("Server", MY_UUID);
-            } catch (IOException e) {
+            } 
+            catch (IOException e) {
+                Toast.makeText(getApplicationContext(),"Socket not created", Toast.LENGTH_SHORT).show();
             }
+            
             mmSocket = temp;
+            
             BluetoothSocket socket = null;
             while (true) {
                 try {
                     socket = mmSocket.accept();
                 } catch (IOException e) {
-                    System.out.println(e);
+                    Toast.makeText(getApplicationContext(),"Socket connection failed", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 if (socket != null) {
                     ConnectedThread mConnection = new ConnectedThread(socket);
@@ -218,26 +203,29 @@ public class ServerServiceIntent extends IntentService {
                     parseMsg(m);
                     ParseObject testObject = new ParseObject("EmployeeLog");
                     testObject.put("EmployeeID", empid);
-                    Message msg = myHandler.obtainMessage(1, empid);
-                    msg.sendToTarget();
+                    
                     String dType = "dd / MM / yyyy";
                     String tType = "HH:mm:ss";
-                    //String s="MMM d, y, HH:mm";
-                    SimpleDateFormat sdf = new SimpleDateFormat(dType);
-                    SimpleDateFormat stf = new SimpleDateFormat(tType);
-                    String Date = sdf.format(new Date());
-                    String time = stf.format(new Date());
-                    testObject.put("Date",Date);
+                    
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dType);
+                    SimpleDateFormat simpleTimeFormat = new SimpleDateFormat(tType);
+                    
+                    String date = simpleDateFormat.format(new Date());
+                    String time = simpleTimeFormat.format(new Date());
+
+                    testObject.put("Date",date);
                     testObject.put("Time",time);
                     testObject.put("Status",status);
-                    testObject.saveInBackground();
                     testObject.saveEventually();
+
                     byte [] xyz = "Successful".getBytes();
+
                     try {
                         mmOutStream.write(xyz);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                 } catch (IOException e) {
                     break;
                 }
@@ -250,13 +238,5 @@ public class ServerServiceIntent extends IntentService {
             }
         }
     }
-
-    public Handler myHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            String data = msg.obj.toString();
-        }
-    };
-
 
 }
