@@ -26,20 +26,6 @@
         android:layout_below="@+id/employeename"
         android:layout_centerHorizontal="true" />
 
-    <!--check again -->
-
-    <!-- <Button
-         android:layout_width="200dp"
-         android:layout_height="200dp"
-         android:text="IN/OUT"
-         android:id="@+id/button"
-         android:layout_centerVertical="true"
-         android:layout_centerHorizontal="true"
-         android:onClick="sendMessage"
-         android:clickable="true"
-         android:textColor="#000000"
-         android:ellipsize="none"/>-->
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

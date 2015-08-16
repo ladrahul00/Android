@@ -9,13 +9,16 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.app.PendingIntent;
 import android.content.ComponentName;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.concurrent.Semaphore;
 
 public class widget extends AppWidgetProvider {
     static boolean clicked=false;
     static int layoutID;
-    public static final Semaphore LOCK = new Semaphore(0);
+//    public static final Semaphore LOCK = new Semaphore(0);
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context,appWidgetManager,appWidgetIds);

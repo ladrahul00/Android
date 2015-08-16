@@ -50,22 +50,22 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.w3c.dom.Text;
+
 public class CheckInOut extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
-    private static final int REQUEST_ENABLE_BT = 1;
+
     private BluetoothAdapter myBluetoothAdapter;
     private Set<BluetoothDevice> pairedDevices;
     private BluetoothDevice mdevice;
-    //Button checkInOut;
-    String employeeid;
-    ProgressWheel pw;
-
-    GoogleApiClient mGoogleApiClient;
+    private String employeeid;
+    private ProgressWheel pw;
+    private TextView message;
+    private GoogleApiClient mGoogleApiClient;
     private PendingIntent mGeofencePendingIntent;
     protected ArrayList<Geofence> mGeofenceList;
     Location mLastLocation;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,17 +74,15 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
         mGeofencePendingIntent=null;
 
         populateGeofenceList();
+        buildGoogleAPIClient();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) this)
-                .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) this)
-                .addApi(LocationServices.API)
-                .build();
+       // while(!mGoogleApiClient.isConnected());
 
+        getGeofencingRequest();
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("mypref", 0); //0 for private mode
         Editor editor = pref.edit();
-        //Get previous status of employee weather he is IN or OUT
+
         int a = pref.getInt("key_name", 0);
         editor.commit();
 
@@ -92,21 +90,22 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
         editor.commit();
         String employeename = pref.getString("EmployeeName", "BLANK");
         editor.commit();
-        //Welcome EmployeeID set Text
+
         TextView empname = (TextView) findViewById(R.id.employeename);
         empname.setText(employeename);
 
         pw = (ProgressWheel)findViewById(R.id.pw_spinner1);
         pw.progress=0;
         pw.stopSpinning();
+
         pw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 pw.spin(true);
-                    sendMessage();
+                sendMessage();
             }
         });
-        if (a == 0) {//If Employee is Onside
+        if (a == 0) {//If Employee is Inside
             pw.setText("Exit");
             pw.setTextSize(30);
         } else//If Employee is Outside
@@ -114,7 +113,16 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
             pw.setText("Enter");
             pw.setTextSize(30);
         }
-        PrintMessage();
+        message = (TextView)findViewById(R.id.Message);
+        message.setVisibility(View.INVISIBLE);
+    }
+
+    protected synchronized void buildGoogleAPIClient(){
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
     }
 
     public void PrintMessage(){
@@ -123,8 +131,8 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
         int a = pref.getInt("key_name", 0);
         editor.commit();
 
+        String weekDay = "";
         if(a==0) {
-            String weekDay = "";
             Calendar cal = Calendar.getInstance();
             int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
             if (Calendar.MONDAY == dayOfWeek) weekDay = "Okay Monday, Let’s do this!";
@@ -138,12 +146,9 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
             else if (Calendar.SATURDAY == dayOfWeek)
                 weekDay = "I love working “Saturday” said no one ever.";
             else if (Calendar.SUNDAY == dayOfWeek) weekDay = "Happy Sunday!";
-            TextView msg = (TextView) findViewById(R.id.Message);
-            msg.setText(weekDay);
         }
         else
         {
-            String weekDay = "";
             Calendar cal = Calendar.getInstance();
             int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
             if (Calendar.MONDAY == dayOfWeek) weekDay = "Its Monday Don’t forget to be awesome";
@@ -157,9 +162,9 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
             else if (Calendar.SATURDAY == dayOfWeek)
                 weekDay = "If you can’t be bothered to work on Saturday, Don’t bother to come in on Sunday";
             else if (Calendar.SUNDAY == dayOfWeek) weekDay = "Finally time to rest :P";
-            TextView msg = (TextView) findViewById(R.id.Message);
-            msg.setText(weekDay);
         }
+        message.setVisibility(View.VISIBLE);
+        message.setText(weekDay);
     }
 
     public void sendMessage(){
@@ -233,7 +238,9 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
             try {
                 mdevice = search(macAdd);   //Searching for paired server device
             }catch(NullPointerException ne){
-
+                Message msg = myHandler.obtainMessage(3, "Device Not connected");
+                msg.sendToTarget();
+                return;
             }
 
             BluetoothSocket temp=null;
@@ -363,6 +370,10 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
                     pw.stopSpinning();
                     Toast.makeText(getApplicationContext(), "Server device not found", Toast.LENGTH_SHORT).show();
                     break;
+                case 3:
+                    pw.stopSpinning();
+                    Toast.makeText(getApplicationContext(), "Server device Not Paired", Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
     };
@@ -398,7 +409,7 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
 
     public void addGeofencesButtonHandler() {
         if (!mGoogleApiClient.isConnected()) {
-            //Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "GPS not started", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -406,17 +417,7 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
             LocationServices.GeofencingApi.addGeofences(
                     mGoogleApiClient,
                     // The GeofenceRequest object.
-                    getGeofencingRequestEnter(),
-                    // A pending intent that that is reused when calling removeGeofences(). This
-                    // pending intent is used to generate an intent when a matched geofence
-                    // transition is observed.
-                    getGeofencePendingIntent()
-            ).setResultCallback(this); // Result processed in onResult().
-
-            LocationServices.GeofencingApi.addGeofences(
-                    mGoogleApiClient,
-                    // The GeofenceRequest object.
-                    getGeofencingRequestExit(),
+                    getGeofencingRequest(),
                     // A pending intent that that is reused when calling removeGeofences(). This
                     // pending intent is used to generate an intent when a matched geofence
                     // transition is observed.
@@ -456,7 +457,7 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
     @Override
     protected void onStop() {
         super.onStop();
-        mGoogleApiClient.disconnect();
+        //mGoogleApiClient.disconnect();
     }
 
 
@@ -465,26 +466,15 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
     }
 
-    private GeofencingRequest getGeofencingRequestEnter() {
+    private GeofencingRequest getGeofencingRequest() {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
 
         // The INITIAL_TRIGGER_ENTER flag indicates that geofencing service should trigger a
         // GEOFENCE_TRANSITION_ENTER notification when the geofence is added and if the device
         // is already inside that geofence.
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-        // Add the geofences to be monitored by geofencing service.
-        builder.addGeofences(mGeofenceList);
-        // Return a GeofencingRequest.
-        return builder.build();
-    }
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER |
+                GeofencingRequest.INITIAL_TRIGGER_EXIT);
 
-    private GeofencingRequest getGeofencingRequestExit() {
-        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-
-        // The INITIAL_TRIGGER_ENTER flag indicates that geofencing service should trigger a
-        // GEOFENCE_TRANSITION_ENTER notification when the geofence is added and if the device
-        // is already inside that geofence.
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_EXIT);
         // Add the geofences to be monitored by geofencing service.
         builder.addGeofences(mGeofenceList);
         // Return a GeofencingRequest.

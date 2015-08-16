@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AddData</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_employee_log">EmployeeLog</string>
+    <string name="title_activity_remove_employee">RemoveEmployee</string>
+    <string name="title_activity_display">DisplayActivity</string>
+    <string name="title_activity_add_employee">AddEmployee</string>
+</resources>

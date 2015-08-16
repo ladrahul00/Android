@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Bazzinga</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_check_in_out">CheckInOut</string>
+    <string name="title_activity_authenticate_employee">AuthenticateEmployee</string>
+</resources>

@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.anonymous.adddata.DisplayActivity"
+    android:background="#FFFFFF">
+
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:id="@+id/button5"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:onClick="view_log"
+        android:background="@drawable/log1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:id="@+id/button2"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/button5"
+        android:layout_alignLeft="@+id/button5"
+        android:layout_alignStart="@+id/button5"
+        android:background="@drawable/add"
+        android:onClick="add_employee" />
+
+    <ImageView
+        android:layout_width="125dp"
+        android:layout_height="36dp"
+        android:id="@+id/imageView"
+        android:background="@drawable/globantlogo1"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:id="@+id/button3"
+        android:layout_below="@+id/button2"
+        android:layout_alignLeft="@+id/button2"
+        android:layout_alignStart="@+id/button2"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/remove"
+        android:onClick="remove_employee" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Employee Log"
+        android:id="@+id/textView5"
+        android:textColor="#000000"
+        android:layout_alignBottom="@+id/button5"
+        android:layout_alignRight="@+id/textView6"
+        android:layout_alignEnd="@+id/textView6"
+        android:gravity="center_vertical" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Add Employees"
+        android:id="@+id/textView6"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_toRightOf="@+id/button2"
+        android:layout_toEndOf="@+id/button2"
+        android:textColor="#000000"
+        android:gravity="center_vertical" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Remove Employees"
+        android:id="@+id/textView7"
+        android:layout_alignBottom="@+id/button3"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignStart="@+id/textView6"
+        android:textColor="#000000"
+        android:gravity="center_vertical" />
+
+
+
+</RelativeLayout>
