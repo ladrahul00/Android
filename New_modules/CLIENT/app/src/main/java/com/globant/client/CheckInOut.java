@@ -70,7 +70,7 @@ public class CheckInOut extends ActionBarActivity implements GoogleApiClient.Con
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in_out);
-        mGeofenceList = new ArrayList<Geofence>();
+        mGeofenceList  = new ArrayList<Geofence>();
         mGeofencePendingIntent=null;
 
         populateGeofenceList();

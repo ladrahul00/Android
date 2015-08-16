@@ -51,7 +51,7 @@ public class AuthenticateEmployee extends ActionBarActivity {
                 SharedPreferences.Editor editor = pref.edit();
                 progressWheel1.stopSpinning();
                 progressWheel2.stopSpinning();
-                editor.putInt("key_name", 1);//Employee Current state Outside
+                editor.putInt("State", 1);//Employee Current state Outside
                 editor.commit();
                 editor.putString("EmployeeIDKey", empidString);//store Employee Name into preferences
                 editor.commit();
