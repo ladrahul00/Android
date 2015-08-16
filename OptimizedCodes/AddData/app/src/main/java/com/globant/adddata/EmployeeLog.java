@@ -19,42 +19,36 @@ import java.util.List;
 import java.util.logging.LogRecord;
 
 public class EmployeeLog extends ActionBarActivity {
-    ListView listView;
-    String date;
+    private ListView listView;
+    private String date;
     private ArrayAdapter<String> lvArrayAdapter;
-    TextView textView;
-    Handler handler = new Handler();
-    Runnable refresh;
-
+    private TextView textView;
+    private Handler handler = new Handler();
+    private String dType = "dd / MM / yyyy";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_log);
-        SearchView search=(SearchView) findViewById(R.id.searchView);
+        SearchView search = (SearchView) findViewById(R.id.searchView);
         search.setQueryHint("SearchView");
-        textView = (TextView)findViewById(R.id.show);
+
+        textView = (TextView) findViewById(R.id.show);
+
         Calendar cal = Calendar.getInstance();
         int currentDate = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(Calendar.DAY_OF_MONTH, currentDate);
-        String dType = "dd / MM / yyyy";
+
         SimpleDateFormat sdf = new SimpleDateFormat(dType);
         date = sdf.format(cal.getTime());
-        textView.setText("Showing Logs for "+date);
-        try {
-            showAll();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
+        textView.setText("Showing Logs for " + date);
+        showAll();//show logs
 
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String arg0) {
                 //search parse for emp id = arg0
-                try {
                     showLogs(arg0);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
                 return true;
             }
 
@@ -64,16 +58,22 @@ public class EmployeeLog extends ActionBarActivity {
             }
         });
 
-        refresh = new Runnable() {
+
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                handler.postDelayed(refresh,5000);
+                showAll();
+                lvArrayAdapter.notifyDataSetChanged();
+                handler.postDelayed(this, 10000);
             }
-        };
-        handler.post(refresh);
+        }, 10 * 1000);
     }
 
-    public void today(View v)throws ParseException
+    public void refresh(View v){
+        showAll();
+    }
+
+    public void today(View v)
     {
         TextView show=(TextView)findViewById(R.id.show);
         show.setText("");
@@ -84,42 +84,16 @@ public class EmployeeLog extends ActionBarActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(dType);
         date = sdf.format(cal.getTime());
         textView.setText("Showing Logs for "+date);
-        lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
-        final ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeLog");
-        query.whereEqualTo("Date", date);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, com.parse.ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < list.size(); i++) {
-                        ParseObject pobj = list.get(i);
-                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time");
-                        lvArrayAdapter.add(str);
-                    }
-                } else {
-                    String str = "No Records found";
-                    lvArrayAdapter.add(str);
-                }
-            }
-        });
-        listView = (ListView)findViewById(R.id.listView);
-        listView.setAdapter(lvArrayAdapter);
         TextView day=(TextView)findViewById(R.id.day);
         day.setText("TODAY");
         Button today=(Button)findViewById(R.id.today);
         today.setVisibility(View.INVISIBLE);
         Button yesterday=(Button)findViewById(R.id.yesterday);
         yesterday.setVisibility(View.VISIBLE);
-        refresh = new Runnable() {
-            @Override
-            public void run() {
-                handler.postDelayed(refresh,5000);
-            }
-        };
-        handler.post(refresh);
+        showAll();
     }
 
-    public void yesterday(View v)throws ParseException
+    public void yesterday(View v)
     {
         TextView show=(TextView)findViewById(R.id.show);
         show.setText("");
@@ -130,42 +104,16 @@ public class EmployeeLog extends ActionBarActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(dType);
         date = sdf.format(cal.getTime());
         textView.setText("Showing Logs for "+date);
-        lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
-        final ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeLog");
-        query.whereEqualTo("Date", date);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, com.parse.ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < list.size(); i++) {
-                        ParseObject pobj = list.get(i);
-                        String str = pobj.get("EmployeeID").toString() + "      " + pobj.get("Status") + "     " + pobj.get("Time");
-                        lvArrayAdapter.add(str);
-                    }
-                } else {
-                    String str = "No Records found";
-                    lvArrayAdapter.add(str);
-                }
-            }
-        });
-        listView = (ListView)findViewById(R.id.listView);
-        listView.setAdapter(lvArrayAdapter);
         TextView day=(TextView)findViewById(R.id.day);
         day.setText("YESTERDAY");
         Button today=(Button)findViewById(R.id.today);
         today.setVisibility(View.VISIBLE);
         Button yesterday=(Button)findViewById(R.id.yesterday);
         yesterday.setVisibility(View.INVISIBLE);
-        refresh = new Runnable() {
-            @Override
-            public void run() {
-                handler.postDelayed(refresh,5000);
-            }
-        };
-        handler.post(refresh);
+        showAll();
     }
 
-    public void showAll()throws ParseException{
+    public void showAll(){
         lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeLog");
         query.whereEqualTo("Date", date);
@@ -186,16 +134,9 @@ public class EmployeeLog extends ActionBarActivity {
         });
         listView = (ListView)findViewById(R.id.listView);
         listView.setAdapter(lvArrayAdapter);
-        refresh = new Runnable() {
-            @Override
-            public void run() {
-                handler.postDelayed(refresh,5000);
-            }
-        };
-        handler.post(refresh);
     }
 
-    public void showLogs(String emp) throws ParseException {
+    public void showLogs(String emp) {
         TextView show=(TextView)findViewById(R.id.show);
         show.setText("searching for "+emp);
         lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
@@ -223,12 +164,5 @@ public class EmployeeLog extends ActionBarActivity {
         listView = (ListView)findViewById(R.id.listView);
         listView.setAdapter(lvArrayAdapter);
         show.setText("showing for " + emp);
-        refresh = new Runnable() {
-            @Override
-            public void run() {
-                handler.postDelayed(refresh,5000);
-            }
-        };
-        handler.post(refresh);
     }
 }

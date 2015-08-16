@@ -6,12 +6,13 @@ android {
 
     defaultConfig {
         applicationId "com.globant.bazzinga"
-        minSdkVersion 19
+        minSdkVersion 18
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false
