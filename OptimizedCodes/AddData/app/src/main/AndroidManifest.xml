@@ -43,6 +43,10 @@
             android:name=".EmployeeLog"
             android:label="@string/title_activity_employee_log" >
         </activity>
+        <activity
+            android:name=".AdminLogin"
+            android:label="@string/title_activity_admin_login" >
+        </activity>
     </application>
 
 </manifest>

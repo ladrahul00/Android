@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Message;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -32,7 +33,7 @@ public class ConnectThread extends Thread {
     private TextView messageTextView;
     private ProgressWheel wheelButton;
     private final String macAdd="5C:51:88:66:57:78";  //Setting MAC Address of server
-
+    MediaPlayer mediaPlayer;
     public ConnectThread(String empData, Context context) {
         employeeID = empData;
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -68,7 +69,6 @@ public class ConnectThread extends Thread {
             myBluetoothAdapter.enable();
 
         while(!myBluetoothAdapter.isEnabled());//Waiting for bluetooth to turn on
-
 
         BluetoothDevice mdevice;
         try {
@@ -268,6 +268,7 @@ public class ConnectThread extends Thread {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                     break;
                 case 2:
                     Toast.makeText(context, "Server device not found", Toast.LENGTH_SHORT).show();
@@ -284,7 +285,6 @@ public class ConnectThread extends Thread {
             if(wheelButton!=null){
                 wheelButton.stopSpinning();
             }
-
             super.handleMessage(msg);
         }
     };

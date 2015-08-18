@@ -13,6 +13,8 @@ public class AddEmployee extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_employee);
+        Intent adminLoginIntent = new Intent(this,AdminLogin.class);
+        startActivity(adminLoginIntent);
     }
 
     public void addData(View v) {
@@ -57,6 +59,7 @@ public class AddEmployee extends ActionBarActivity {
 
     @Override
     protected void onResume() {
+        setContentView(R.layout.activity_add_employee);
         super.onResume();
     }
 }

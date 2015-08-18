@@ -7,4 +7,5 @@
     <string name="title_activity_remove_employee">RemoveEmployee</string>
     <string name="title_activity_display">DisplayActivity</string>
     <string name="title_activity_add_employee">AddEmployee</string>
+    <string name="title_activity_admin_login">AdminLogin</string>
 </resources>
