@@ -13,8 +13,10 @@ public class AddEmployee extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_employee);
-        Intent adminLoginIntent = new Intent(this,AdminLogin.class);
-        startActivity(adminLoginIntent);
+        if(MainActivity.loggedinAdmin==false) {
+            Intent adminLoginIntent = new Intent(this, AdminLogin.class);
+            startActivity(adminLoginIntent);
+        }
     }
 
     public void addData(View v) {
@@ -59,7 +61,13 @@ public class AddEmployee extends ActionBarActivity {
 
     @Override
     protected void onResume() {
-        setContentView(R.layout.activity_add_employee);
+        if(MainActivity.loggedinAdmin==true)
+            setContentView(R.layout.activity_add_employee);
+        else{
+            Intent adminLoginIntent = new Intent(this,AdminLogin.class);
+            startActivity(adminLoginIntent);
+        }
+
         super.onResume();
     }
 }

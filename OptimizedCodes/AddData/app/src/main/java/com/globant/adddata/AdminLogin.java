@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 
 public class AdminLogin extends ActionBarActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +25,8 @@ public class AdminLogin extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if(loginId.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
+                    finish();
+                    MainActivity.loggedinAdmin=true;
                     finish();
                 }
                 else{

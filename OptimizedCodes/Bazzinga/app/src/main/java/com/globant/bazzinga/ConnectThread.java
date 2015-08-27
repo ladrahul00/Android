@@ -6,6 +6,9 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Message;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -33,13 +36,18 @@ public class ConnectThread extends Thread {
     private TextView messageTextView;
     private ProgressWheel wheelButton;
     private final String macAdd="5C:51:88:66:57:78";  //Setting MAC Address of server
-    MediaPlayer mediaPlayer;
+
+    Ringtone ringtone;
+    Uri notification;
+
     public ConnectThread(String empData, Context context) {
         employeeID = empData;
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         this.context = context;
         messageTextView=null;
         wheelButton=null;
+        notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        ringtone = RingtoneManager.getRingtone(context, notification);
     }
 
     public ConnectThread(String empData, Context context, TextView textView, ProgressWheel progressWheel){
@@ -48,6 +56,8 @@ public class ConnectThread extends Thread {
         this.context = context;
         messageTextView=textView;
         wheelButton=progressWheel;
+        notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        ringtone = RingtoneManager.getRingtone(context, notification);
     }
 
     //Search function to search Paired Server Device

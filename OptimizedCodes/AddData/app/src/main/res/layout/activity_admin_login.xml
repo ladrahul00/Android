@@ -19,11 +19,11 @@
     <AutoCompleteTextView
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="Login ID"
         android:id="@+id/adminLoginID"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp" />
+        android:layout_marginTop="60dp"
+        android:hint="Login Id" />
 
     <EditText
         android:layout_width="250dp"
@@ -31,9 +31,9 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/adminPassword"
-        android:text="Password"
         android:layout_below="@+id/adminLoginID"
-        android:layout_alignStart="@+id/adminLoginID" />
+        android:layout_alignStart="@+id/adminLoginID"
+        android:hint="Password" />
 
     <Button
         android:layout_width="wrap_content"

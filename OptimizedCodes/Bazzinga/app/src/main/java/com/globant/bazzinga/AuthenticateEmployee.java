@@ -237,6 +237,4 @@ public class AuthenticateEmployee extends ActionBarActivity implements GoogleApi
     public void onResult(Status status) {
 
     }
-
-
 }

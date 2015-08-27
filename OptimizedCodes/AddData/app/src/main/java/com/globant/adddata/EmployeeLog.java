@@ -1,6 +1,7 @@
 package com.globant.adddata;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -48,7 +49,7 @@ public class EmployeeLog extends ActionBarActivity {
             @Override
             public boolean onQueryTextSubmit(String arg0) {
                 //search parse for emp id = arg0
-                    showLogs(arg0);
+                showLogs(arg0);
                 return true;
             }
 
@@ -58,19 +59,31 @@ public class EmployeeLog extends ActionBarActivity {
             }
         });
 
+        lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
+        listView = (ListView)findViewById(R.id.listView);
+        listView.setAdapter(lvArrayAdapter);
 
+        final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                lvArrayAdapter.clear();
+                showAll();
+                swipeRefreshLayout.setRefreshing(false);
+                lvArrayAdapter.notifyDataSetChanged();
+            }
+        });
+
+       /*
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 showAll();
                 lvArrayAdapter.notifyDataSetChanged();
-                handler.postDelayed(this, 10000);
+                handler.postDelayed(this, 60000);
             }
-        }, 10 * 1000);
-    }
-
-    public void refresh(View v){
-        showAll();
+        }, 60 * 1000);*/
     }
 
     public void today(View v)
@@ -114,7 +127,6 @@ public class EmployeeLog extends ActionBarActivity {
     }
 
     public void showAll(){
-        lvArrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("EmployeeLog");
         query.whereEqualTo("Date", date);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -127,13 +139,11 @@ public class EmployeeLog extends ActionBarActivity {
                         lvArrayAdapter.add(str);
                     }
                 } else {
-                    String str="No Records found";
+                    String str = "No Records found";
                     lvArrayAdapter.add(str);
                 }
             }
         });
-        listView = (ListView)findViewById(R.id.listView);
-        listView.setAdapter(lvArrayAdapter);
     }
 
     public void showLogs(String emp) {

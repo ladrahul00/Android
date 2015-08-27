@@ -20,8 +20,10 @@ public class RemoveEmployee extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remove_employee);
-        Intent adminLoginIntent = new Intent(this,AdminLogin.class);
-        startActivity(adminLoginIntent);
+        if(MainActivity.loggedinAdmin==false) {
+            Intent adminLoginIntent = new Intent(this, AdminLogin.class);
+            startActivity(adminLoginIntent);
+        }
     }
 
     public void removeData(View v){
@@ -69,7 +71,12 @@ public class RemoveEmployee extends ActionBarActivity {
 
     @Override
     protected void onResume() {
-        setContentView(R.layout.activity_remove_employee);
+        if(MainActivity.loggedinAdmin==true)
+            setContentView(R.layout.activity_remove_employee);
+        else{
+            Intent adminLoginIntent = new Intent(this, AdminLogin.class);
+            startActivity(adminLoginIntent);
+        }
         super.onResume();
     }
 }
